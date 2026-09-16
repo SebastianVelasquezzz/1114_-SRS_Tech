@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Formulario de ingreso</title>
+</head>
+
+<body>
+
+    <h1>Formulario de ingreso</h1>
+
+    <form>
+
+        <label for="nombre">Nombre completo:</label>
+        <br>
+        <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Ingresa tu nombre"
+            required
+        >
+
+        <br><br>
+
+        <label for="edad">Edad:</label>
+        <br>
+        <input 
+            type="number" 
+            id="edad" 
+            name="edad" 
+            placeholder="Ingresa tu edad"
+            min="1"
+            max="100"
+            required
+        >
+
+        <br><br>
+
+        <label for="correo">Correo electrónico:</label>
+        <br>
+        <input 
+            type="email" 
+            id="correo" 
+            name="correo" 
+            placeholder="ejemplo@correo.com"
+            required
+        >
+
+        <br><br>
+
+        <label for="telefono">Número de teléfono:</label>
+        <br>
+        <input 
+            type="tel" 
+            id="telefono" 
+            name="telefono" 
+            placeholder="Ingresa tu teléfono"
+        >
+
+        <br><br>
+
+        <label for="mensaje">Mensaje:</label>
+        <br>
+        <textarea 
+            id="mensaje" 
+            name="mensaje" 
+            rows="5" 
+            cols="40"
+            placeholder="Escribe tu mensaje aquí..."
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">Enviar formulario</button>
+
+        <button type="reset">Limpiar</button>
+
+    </form>
+
+</body>
+
+</html>
+```
