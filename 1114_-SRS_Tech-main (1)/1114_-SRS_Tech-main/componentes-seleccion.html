@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arma tu PC</title>
+</head>
+
+<body>
+
+    <h1>Arma tu PC</h1>
+    <p>Selecciona las piezas que quieres para tu computador.</p>
+
+    <form>
+
+       
+        <h2>Procesador</h2>
+
+        <label for="procesador">Selecciona un procesador:</label>
+        <select id="procesador" name="procesador">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="ryzen5-5600">AMD Ryzen 5 5600</option>
+            <option value="ryzen5-7600">AMD Ryzen 5 7600</option>
+            <option value="ryzen7-7700">AMD Ryzen 7 7700</option>
+            <option value="i5-12400f">Intel Core i5-12400F</option>
+            <option value="i5-13400f">Intel Core i5-13400F</option>
+            <option value="i7-13700k">Intel Core i7-13700K</option>
+        </select>
+
+    
+        <h2>Tarjeta gráfica</h2>
+
+        <label for="grafica">Selecciona una tarjeta gráfica:</label>
+        <select id="grafica" name="grafica">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="rtx4060">NVIDIA RTX 4060</option>
+            <option value="rtx4060ti">NVIDIA RTX 4060 Ti</option>
+            <option value="rtx4070">NVIDIA RTX 4070</option>
+            <option value="rtx5070">NVIDIA RTX 5070</option>
+            <option value="rx7600">AMD Radeon RX 7600</option>
+            <option value="rx7700xt">AMD Radeon RX 7700 XT</option>
+        </select>
+
+     
+        <h2>Memoria RAM</h2>
+
+        <label for="ram">Cantidad de RAM:</label>
+        <select id="ram" name="ram">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="8gb">8 GB</option>
+            <option value="16gb">16 GB</option>
+            <option value="32gb">32 GB</option>
+            <option value="64gb">64 GB</option>
+        </select>
+
+        <br><br>
+
+        <label for="ram_tipo">Tipo de RAM:</label>
+        <select id="ram_tipo" name="ram_tipo">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="ddr4">DDR4</option>
+            <option value="ddr5">DDR5</option>
+        </select>
+
+        <h2>Placa madre</h2>
+
+        <label for="placa">Selecciona una placa madre:</label>
+        <select id="placa" name="placa">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="a520">AMD A520</option>
+            <option value="b550">AMD B550</option>
+            <option value="b650">AMD B650</option>
+            <option value="b760">Intel B760</option>
+            <option value="z790">Intel Z790</option>
+        </select>
+
+        <h2>Almacenamiento</h2>
+
+        <label for="almacenamiento">Selecciona el almacenamiento:</label>
+        <select id="almacenamiento" name="almacenamiento">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="ssd-500">SSD 500 GB</option>
+            <option value="ssd-1tb">SSD 1 TB</option>
+            <option value="ssd-2tb">SSD 2 TB</option>
+            <option value="m2-500">M.2 NVMe 500 GB</option>
+            <option value="m2-1tb">M.2 NVMe 1 TB</option>
+            <option value="m2-2tb">M.2 NVMe 2 TB</option>
+        </select>
+
+     
+        <h2>Fuente de poder</h2>
+
+        <label for="fuente">Selecciona una fuente:</label>
+        <select id="fuente" name="fuente">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="450w">450 W</option>
+            <option value="550w">550 W</option>
+            <option value="650w">650 W</option>
+            <option value="750w">750 W</option>
+            <option value="850w">850 W</option>
+        </select>
+
+        <!-- Gabinete -->
+        <h2>Gabinete</h2>
+
+        <label for="gabinete">Selecciona un gabinete:</label>
+        <select id="gabinete" name="gabinete">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="mini-tower">Mini Tower</option>
+            <option value="mid-tower">Mid Tower</option>
+            <option value="full-tower">Full Tower</option>
+        </select>
+
+    
+        <h2>Refrigeración</h2>
+
+        <label for="refrigeracion">Selecciona la refrigeración:</label>
+        <select id="refrigeracion" name="refrigeracion">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="stock">Disipador de fábrica</option>
+            <option value="aire">Disipador por aire</option>
+            <option value="aio-120">Refrigeración líquida 120 mm</option>
+            <option value="aio-240">Refrigeración líquida 240 mm</option>
+            <option value="aio-360">Refrigeración líquida 360 mm</option>
+        </select>
+
+      
+        <h2>Sistema operativo</h2>
+
+        <label>
+            <input type="radio" name="sistema" value="windows11">
+            Windows 11
+        </label>
+
+        <br>
+
+        <label>
+            <input type="radio" name="sistema" value="linux">
+            Linux
+        </label>
+
+        <br>
+
+        <label>
+            <input type="radio" name="sistema" value="ninguno">
+            Sin sistema operativo
+        </label>
+
+    
+        <h2>Accesorios</h2>
+
+        <label>
+            <input type="checkbox" name="accesorios" value="teclado">
+            Teclado
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="accesorios" value="mouse">
+            Mouse
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="accesorios" value="audifonos">
+            Audífonos
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="accesorios" value="monitor">
+            Monitor
+        </label>
+
+     
+        <h2>Datos del cliente</h2>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre">
+
+        <br><br>
+
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com">
+
+        <br><br>
+
+        <label for="comentarios">Comentarios:</label>
+        <br>
+        <textarea id="comentarios" name="comentarios" rows="5" cols="40"
+            placeholder="Escribe alguna recomendación o detalle que quieras agregar"></textarea>
+
+        <br><br>
+
+        <button type="submit">Armar mi PC</button>
+        <button type="reset">Limpiar formulario</button>
+
+    </form>
+
+</body>
+</html>
