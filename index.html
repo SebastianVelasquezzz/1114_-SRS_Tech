@@ -1,358 +1,549 @@
-
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <link rel="stylesheet" href="estilos/estilos.css">
+    <title>SSR TECH</title>
 </head>
 
 <body>
 
+<header>
+    <h1>SSR TECH</h1>
 
-    <header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="componentes-seleccion.html">Componentes</a>
+        <a href="productos.html">Productos</a>
+        <a href="formulario.html">Contacto</a>
+    </nav>
+</header>
 
-        <h1></h1>
+<section class="slider">
 
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="componentes.html">Componentes</a>
-            <a href="productos.html">Productos</a>
-            <a href="formulario.html">Contacto</a>
-        </nav>
+    <div class="slide activo">
+        <img src="imagenes/slider1.jpg" alt="Componentes para PC">
 
-    </header>
+        <div class="contenido-slide">
+            <span>SSR TECH</span>
+            <h2>Arma tu PC</h2>
 
+            <p>
+                Encuentra los componentes que necesitas
+                para crear el computador que quieres.
+            </p>
 
-
-    <section>
-
-        <h2>Encuentra los componentes para tu PC</h2>
-
-        <div>
-
-            <div>
-                <img src="imagenes/slider1.jpg" alt="Componentes para PC"
->
-
-                <h3>Arma tu PC</h3>
-                <p>
-                    Encuentra los mejores componentes para construir
-                    el computador que necesitas.
-                </p>
-            </div>
-
-
-            <div>
-                <img src="imagenes/slider2.jpg" alt="Tarjetas gráficas">
-
-                <h3>Potencia para tus juegos</h3>
-                <p>
-                    Mejora el rendimiento de tu computador con
-                    tarjetas gráficas de alto rendimiento.
-                </p>
-            </div>
-
-
-            <div>
-                <img src="imagenes/slider3.jpg" alt="Componentes de computador">
-
-                <h3>Actualiza tu equipo</h3>
-                <p>
-                    Encuentra memoria RAM, almacenamiento, fuentes
-                    y muchos componentes más.
-                </p>
-            </div>
-
+            <a href="componentes.html" class="boton">
+                Ver componentes
+            </a>
         </div>
+    </div>
 
-    </section>
+    <div class="slide">
+        <img src="imagenes/slider2.jpg" alt="Tarjeta gráfica">
 
+        <div class="contenido-slide">
+            <span>GAMING</span>
+            <h2>Potencia para jugar</h2>
 
-    <section>
+            <p>
+                Mejora el rendimiento de tu PC
+                y disfruta tus juegos favoritos.
+            </p>
 
-        <h2>Componentes</h2>
+            <a href="graficas.html" class="boton">
+                Ver gráficas
+            </a>
+        </div>
+    </div>
+
+    <div class="slide">
+        <img src="imagenes/slider3.jpg" alt="Componentes de computador">
+
+        <div class="contenido-slide">
+            <span>ACTUALIZA</span>
+            <h2>Mejora tu PC</h2>
+
+            <p>
+                Encuentra memoria RAM, almacenamiento,
+                fuentes y mucho más.
+            </p>
+
+            <a href="componentes.html" class="boton">
+                Explorar
+            </a>
+        </div>
+    </div>
+
+    <button class="anterior" onclick="cambiarSlide(-1)">
+        &#10094;
+    </button>
+
+    <button class="siguiente" onclick="cambiarSlide(1)">
+        &#10095;
+    </button>
+
+    <div class="indicadores">
+        <span class="indicador activo-indicador" onclick="irSlide(0)"></span>
+        <span class="indicador" onclick="irSlide(1)"></span>
+        <span class="indicador" onclick="irSlide(2)"></span>
+    </div>
+
+</section>
+
+<section class="bienvenida">
+
+    <p class="pequeno">
+        TODO PARA TU PC
+    </p>
+
+    <h2>
+        Encuentra los componentes
+        que necesitas
+    </h2>
+
+    <p>
+        Explora nuestra variedad de componentes,
+        productos y opciones para mejorar tu PC.
+    </p>
+
+    <a href="componentes.html" class="boton-secundario">
+        Ver componentes
+    </a>
+
+</section>
+
+<section class="seccion-componentes">
+
+    <div class="titulo-seccion">
+
+        <span>LO QUE TENEMOS</span>
+
+        <h2>
+            Componentes para tu PC
+        </h2>
 
         <p>
-            Explora nuestras principales categorías de componentes
-            para computador.
+            Encuentra los componentes que necesitas
+            para armar, mejorar o actualizar tu computador.
         </p>
 
+    </div>
 
-        <div>
+    <div class="contenedor-componentes">
 
-    
-            <article>
+        <article class="tarjeta-componente">
 
-                <img src="imagenes/procesador.jpg" alt="Procesador">
+            <img src="imagenes/procesador.jpg" alt="Procesador">
 
-                <h3>Procesadores</h3>
+            <div class="info-componente">
 
-                <p>
-                    Procesadores para diferentes tipos de computadores
-                    y necesidades.
-                </p>
+                <span class="categoria">
+                    PROCESADORES
+                </span>
 
-                <a href="procesadores.html">Ver procesadores</a>
-
-            </article>
-
-
-  
-            <article>
-
-                <img src="imagenes/grafica.jpg"alt="Tarjeta gráfica"
-                
-
-                <h3>Tarjetas gráficas</h3>
+                <h3>
+                    Procesadores
+                </h3>
 
                 <p>
-                    Tarjetas gráficas para gaming, diseño y edición.
+                    Procesadores para diferentes tipos
+                    de computadores y necesidades.
                 </p>
 
-                <a href="graficas.html">Ver tarjetas gráficas</a>
+                <a href="procesadores.html" class="boton-tarjeta">
+                    Ver procesadores
+                </a>
 
-            </article>
+            </div>
 
+        </article>
 
+        <article class="tarjeta-componente">
 
-            <article>
+            <img src="imagenes/grafica.jpg" alt="Tarjeta gráfica">
 
-                <img src="imagenes/ram.jpg" alt="Memoria ram">
+            <div class="info-componente">
 
-                <h3>Memoria RAM</h3>
+                <span class="categoria">
+                    GAMING
+                </span>
+
+                <h3>
+                    Tarjetas gráficas
+                </h3>
 
                 <p>
-                    Aumenta la velocidad y capacidad de tu computador.
+                    Tarjetas gráficas para gaming,
+                    diseño y edición.
                 </p>
 
-                <a href="ram.html">Ver memorias RAM</a>
+                <a href="graficas.html" class="boton-tarjeta">
+                    Ver tarjetas
+                </a>
 
-            </article>
+            </div>
 
+        </article>
 
-            <!-- ALMACENAMIENTO -->
-            <article>
+        <article class="tarjeta-componente">
 
-                <img src="imagenes/almacenamiento.jpg"alt="Almacenamiento">
+            <img src="imagenes/ram.jpg" alt="Memoria RAM">
 
-                <h3>Almacenamiento</h3>
+            <div class="info-componente">
+
+                <span class="categoria">
+                    MEMORIA
+                </span>
+
+                <h3>
+                    Memoria RAM
+                </h3>
 
                 <p>
-                    SSD y otros dispositivos para guardar tus archivos.
+                    Aumenta la velocidad y capacidad
+                    de tu computador.
                 </p>
 
-                <a href="almacenamiento.html">Ver almacenamiento</a>
+                <a href="ram.html" class="boton-tarjeta">
+                    Ver memorias
+                </a>
 
-            </article>
+            </div>
 
+        </article>
 
+        <article class="tarjeta-componente">
 
-            <article>
+            <img src="imagenes/almacenamiento.jpg" alt="Almacenamiento">
 
-                <img src="imagenes/fuente.jpg"alt="Fuente de poder">
+            <div class="info-componente">
 
-                <h3>Fuentes de poder</h3>
+                <span class="categoria">
+                    ALMACENAMIENTO
+                </span>
+
+                <h3>
+                    Almacenamiento
+                </h3>
 
                 <p>
-                    Fuentes de alimentación para diferentes
-                    configuraciones.
+                    SSD y otros dispositivos para
+                    guardar tus archivos.
                 </p>
 
-                <a href="fuentes.html">Ver fuentes</a>
+                <a href="almacenamiento.html" class="boton-tarjeta">
+                    Ver almacenamiento
+                </a>
 
-            </article>
+            </div>
 
+        </article>
 
-          
-            <article>
+        <article class="tarjeta-componente">
 
-                <img src="imagenes/gabinete.jpg" alt="Gabinete">
+            <img src="imagenes/fuente.jpg" alt="Fuente de poder">
 
-                <h3>Gabinetes</h3>
+            <div class="info-componente">
+
+                <span class="categoria">
+                    ENERGÍA
+                </span>
+
+                <h3>
+                    Fuentes de poder
+                </h3>
 
                 <p>
-                    Gabinetes para organizar y proteger todos
-                    los componentes de tu PC.
+                    Fuentes de alimentación para
+                    diferentes configuraciones.
                 </p>
 
-                <a href="gabinetes.html">Ver gabinetes</a>
+                <a href="fuentes.html" class="boton-tarjeta">
+                    Ver fuentes
+                </a>
 
-            </article>
+            </div>
 
-        </div>
+        </article>
 
-    </section>
+        <article class="tarjeta-componente">
 
+            <img src="imagenes/gabinete.jpg" alt="Gabinete">
 
+            <div class="info-componente">
 
-    <section>
+                <span class="categoria">
+                    GABINETES
+                </span>
 
-        <h2>Productos destacados</h2>
-
-        <div>
-
-            <article>
-
-                <img src="imagenes/producto1.jpg"alt="PC Gamer">
-
-                <h3>PC Gamer</h3>
+                <h3>
+                    Gabinetes
+                </h3>
 
                 <p>
-                    Computador diseñado para gaming y alto rendimiento.
+                    Gabinetes para organizar y proteger
+                    todos los componentes de tu PC.
                 </p>
 
-                <p><strong>$3.500.000</strong></p>
+                <a href="gabinetes.html" class="boton-tarjeta">
+                    Ver gabinetes
+                </a>
 
-                <button>Ver producto</button>
+            </div>
 
-            </article>
+        </article>
 
+    </div>
 
-            <article>
+</section>
 
-                <img src="imagenes/producto2.jpg" alt="Tarjeta gráfica">
+<section class="seccion-productos">
 
-                <h3>Tarjeta gráfica</h3>
+    <div class="titulo-seccion">
+
+        <span>DESTACADOS</span>
+
+        <h2>
+            Productos destacados
+        </h2>
+
+        <p>
+            Algunos productos que puedes encontrar
+            en SSR TECH.
+        </p>
+
+    </div>
+
+    <div class="contenedor-productos">
+
+        <article class="tarjeta-producto">
+
+            <img src="imagenes/producto1.jpg" alt="PC Gamer">
+
+            <div class="info-producto">
+
+                <span class="categoria">
+                    PC GAMER
+                </span>
+
+                <h3>
+                    PC Gamer
+                </h3>
 
                 <p>
-                    Gráfica para disfrutar tus juegos con buen rendimiento.
+                    Computador diseñado para gaming
+                    y alto rendimiento.
                 </p>
 
-                <p><strong>$1.500.000</strong></p>
+                <strong>
+                    $3.500.000
+                </strong>
 
-                <button>Ver producto</button>
+                <a href="productos.html" class="boton-tarjeta">
+                    Ver producto
+                </a>
 
-            </article>
+            </div>
 
+        </article>
 
-            <article>
+        <article class="tarjeta-producto">
 
-                <img src="imagenes/producto3.jpg" alt="Memoria RAM">
+            <img src="imagenes/producto2.jpg" alt="Tarjeta gráfica">
 
-                <h3>Memoria RAM 16 GB</h3>
+            <div class="info-producto">
+
+                <span class="categoria">
+                    GAMING
+                </span>
+
+                <h3>
+                    Tarjeta gráfica
+                </h3>
 
                 <p>
-                    Memoria ideal para mejorar el rendimiento del equipo.
+                    Gráfica para disfrutar tus juegos
+                    con buen rendimiento.
                 </p>
 
-                <p><strong>$250.000</strong></p>
+                <strong>
+                    $1.500.000
+                </strong>
 
-                <button>Ver producto</button>
+                <a href="productos.html" class="boton-tarjeta">
+                    Ver producto
+                </a>
 
-            </article>
+            </div>
 
-        </div>
+        </article>
 
-    </section>
+        <article class="tarjeta-producto">
 
+            <img src="imagenes/producto3.jpg" alt="Memoria RAM">
 
+            <div class="info-producto">
 
-    <section>
+                <span class="categoria">
+                    MEMORIA
+                </span>
 
-        <h2>Sobre nosotros</h2>
+                <h3>
+                    Memoria RAM 16 GB
+                </h3>
+
+                <p>
+                    Memoria ideal para mejorar
+                    el rendimiento del equipo.
+                </p>
+
+                <strong>
+                    $250.000
+                </strong>
+
+                <a href="productos.html" class="boton-tarjeta">
+                    Ver producto
+                </a>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<section class="sobre-nosotros">
+
+    <div class="titulo-seccion">
+
+        <span>SSR TECH</span>
+
+        <h2>
+            Sobre nosotros
+        </h2>
+
+    </div>
+
+    <div class="contenido-nosotros">
 
         <img src="imagenes/nosotros.jpg" alt="Sobre nosotros">
 
         <div>
 
-            <h3>¿Quiénes somos?</h3>
+            <h3>
+                ¿Quiénes somos?
+            </h3>
 
             <p>
-                Somos una tienda dedicada a la venta de componentes
-                y productos para computadores.
+                Somos una tienda dedicada a la venta
+                de componentes y productos para computadores.
             </p>
 
             <p>
-                Nuestro objetivo es ofrecer diferentes opciones para
-                que cada persona pueda encontrar los componentes que
-                necesita para su computador.
+                Nuestro objetivo es ofrecer diferentes
+                opciones para que cada persona pueda
+                encontrar los componentes que necesita.
             </p>
 
             <p>
-                Contamos con productos para gaming, trabajo, estudio,
-                diseño y diferentes tipos de usuarios.
+                Contamos con productos para gaming,
+                trabajo, estudio, diseño y diferentes
+                tipos de usuarios.
             </p>
 
         </div>
 
-    </section>
+    </div>
 
+</section>
 
+<section class="seccion-ventajas">
 
-    <section>
+    <div class="titulo-seccion">
 
-        <h2>¿Por qué elegirnos?</h2>
+        <span>SSR TECH</span>
 
-        <div>
+        <h2>
+            ¿Por qué elegirnos?
+        </h2>
 
-            <article>
+    </div>
 
-                <h3> Variedad</h3>
+    <div class="contenedor-ventajas">
 
-                <p>
-                    Diferentes componentes para todo tipo de PC.
-                </p>
+        <article>
+            <h3>
+                Variedad
+            </h3>
 
-            </article>
+            <p>
+                Diferentes componentes para
+                todo tipo de PC.
+            </p>
+        </article>
 
+        <article>
+            <h3>
+                Calidad
+            </h3>
 
-            <article>
+            <p>
+                Productos pensados para diferentes
+                necesidades y configuraciones.
+            </p>
+        </article>
 
-                <h3>Calidad</h3>
+        <article>
+            <h3>
+                Atención
+            </h3>
 
-                <p>
-                    Productos pensados para diferentes necesidades
-                    y configuraciones.
-                </p>
+            <p>
+                Te ayudamos a encontrar los
+                componentes adecuados para tu equipo.
+            </p>
+        </article>
 
-            </article>
+        <article>
+            <h3>
+                Envíos
+            </h3>
 
+            <p>
+                Realizamos envíos para que puedas
+                recibir tus productos donde los necesites.
+            </p>
+        </article>
 
-            <article>
+    </div>
 
-                <h3>Atención</h3>
+</section>
 
-                <p>
-                    Te ayudamos a encontrar los componentes adecuados
-                    para tu equipo.
-                </p>
+<section class="ayuda">
 
-            </article>
+    <h2>
+        ¿Necesitas ayuda?
+    </h2>
 
+    <p>
+        Si tienes dudas sobre qué componentes necesitas
+        para armar o actualizar tu PC, puedes contactarnos.
+    </p>
 
-            <article>
+    <a href="formulario.html" class="boton-secundario">
+        Contactarnos
+    </a>
 
-                <h3>Envíos</h3>
+</section>
 
-                <p>
-                    Realizamos envíos para que puedas recibir tus
-                    productos donde los necesites.
-                </p>
-
-            </article>
-
-        </div>
-
-    </section>
-
-
-    <section>
-
-        <h2>¿Necesitas ayuda?</h2>
-
-        <p>
-            Si tienes dudas sobre qué componentes necesitas para
-            armar o actualizar tu PC, puedes contactarnos.
-        </p>
-
-        <a href="formulario.html">Contactarnos</a>
-
-    </section>
+<script src="slider/java.js"></script>
 
 
 </body>
 
 </html>
-
