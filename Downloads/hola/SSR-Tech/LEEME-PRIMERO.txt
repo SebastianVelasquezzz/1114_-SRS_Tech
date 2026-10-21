@@ -1,0 +1,13 @@
+SSR TECH - COMO INICIAR
+
+1. Instala Node.js LTS si aun no lo tienes.
+2. Abre esta carpeta en VS Code.
+3. Haz doble clic en PREPARAR SSR TECH.bat y espera a que termine.
+4. Haz doble clic en INICIAR SSR TECH.bat.
+5. Abre http://localhost:3000 en tu navegador.
+
+Para entrar al panel de administracion, abre http://localhost:3000/admin/login
+Contrasena local inicial: SSRTECH2026
+
+No abras los HTML directamente con doble clic: el carrito, los formularios y la base de datos necesitan que el servidor este encendido.
+No borres ssr_tech.db si quieres conservar los datos.

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Productos | SSR TECH
+  </title>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Inicio
+    </a>
+    <a href="/componentes">
+     Componentes
+    </a>
+    <a href="/configurar">
+     Arma tu PC
+    </a>
+    <a aria-current="page" href="/productos">
+     Productos
+    </a>
+    <a href="/formulario">
+     Contacto
+    </a>
+    <button class="carrito-boton" id="abrir-carrito" type="button">
+     Carrito
+     <span id="cantidad-carrito">
+      0
+     </span>
+    </button>
+   </nav>
+  </header>
+  <main>
+   <section class="pagina-titulo">
+    <span class="categoria">
+     CATÁLOGO SSR TECH
+    </span>
+    <h1>
+     Encuentra tu próxima pieza
+    </h1>
+    <p>
+     Consulta componentes, compara sus características y agrega lo que necesitas al carrito.
+    </p>
+   </section>
+   <section class="tienda">
+    <div class="tienda-grid" id="productos-tienda">
+     <p>
+      Cargando productos...
+     </p>
+    </div>
+   </section>
+  </main>
+  <div class="sombra-carrito" id="sombra-carrito">
+  </div>
+  <aside aria-hidden="true" class="panel-carrito" id="panel-carrito">
+   <div class="carrito-titulo">
+    <div>
+     <span class="categoria">
+      TU PEDIDO
+     </span>
+     <h2>
+      Carrito
+      <small id="items-carrito">
+       0 piezas
+      </small>
+     </h2>
+    </div>
+    <button aria-label="Cerrar" class="cerrar-carrito" id="cerrar-carrito">
+     ×
+    </button>
+   </div>
+   <div class="lineas-carrito" id="lineas-carrito">
+   </div>
+   <div class="carrito-pie">
+    <p>
+     Total estimado
+     <strong id="total-carrito">
+      $0
+     </strong>
+    </p>
+    <form class="compra-form" id="compra-form">
+     <label>
+      Nombre
+      <input maxlength="100" minlength="2" name="nombre" placeholder="Nombre completo" required=""/>
+     </label>
+     <label>
+      Correo
+      <input maxlength="160" name="email" placeholder="correo@ejemplo.com" required="" type="email"/>
+     </label>
+     <label>
+      Teléfono
+      <input maxlength="40" minlength="7" name="telefono" placeholder="Número de contacto" required="" type="tel"/>
+     </label>
+     <label>
+      Dirección de entrega
+      <textarea maxlength="250" minlength="5" name="direccion" placeholder="Ciudad y dirección" required=""></textarea>
+     </label>
+     <button class="boton boton-armar" type="submit">
+      Enviar pedido
+     </button>
+     <p class="nota-compra">
+      El pedido queda registrado; no se procesa ningún pago en línea.
+     </p>
+     <p id="mensaje-compra" role="status">
+     </p>
+    </form>
+   </div>
+  </aside>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Tecnología para construir tu PC.
+   <a class="enlace-admin" href="/admin/login">
+    Administración
+   </a>
+  </footer>
+  <script defer="" src="/scripts/tienda.js">
+  </script>
+ </body>
+</html>
