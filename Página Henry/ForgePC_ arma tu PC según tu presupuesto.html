@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ForgePC: arma tu PC según tu presupuesto</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0f6;--bg2:#dfe3ee;--pn:#ffffffd9;--tx:#12141c;--mu:#5d6475;--ln:#12141c1a;--ac:#38bdf8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#090a12;--bg2:#171a2b;--pn:#0f111cd9;--tx:#eef1fa;--mu:#8e96ab;--ln:#ffffff17}}
+:root[data-theme="dark"]{--bg:#090a12;--bg2:#171a2b;--pn:#0f111cd9;--tx:#eef1fa;--mu:#8e96ab;--ln:#ffffff17}
+*,*:before,*:after{box-sizing:inherit}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--tx);font:400 15px/1.45 "Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:grid;grid-template-columns:1fr 430px;height:100%}
+#stage{position:relative;min-height:0;background:radial-gradient(ellipse at 50% 62%,color-mix(in srgb,var(--ac) 22%,transparent),transparent 62%),linear-gradient(var(--bg),var(--bg2));overflow:hidden;touch-action:none;cursor:grab}
+#stage:active{cursor:grabbing}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero{position:absolute;left:28px;top:24px;pointer-events:none}
+.hero h1{margin:0;font-size:clamp(34px,5vw,64px);line-height:.95;letter-spacing:-.04em;font-weight:700}
+.hero p{margin:8px 0 0;color:var(--mu);max-width:30ch}
+.hint{position:absolute;left:28px;bottom:20px;color:var(--mu);font-size:13px;pointer-events:none}
+aside{background:var(--pn);backdrop-filter:blur(18px);border-left:1px solid var(--ln);padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:18px}
+label{font-size:13px;color:var(--mu)}
+.money{display:flex;align-items:baseline;gap:6px;border-bottom:2px solid var(--ac);padding-bottom:4px;margin-top:4px}
+.money span{font-size:26px;color:var(--mu)}
+#bud{all:unset;font-size:40px;font-weight:700;letter-spacing:-.03em;width:100%;min-width:0}
+#bud:focus-visible{outline:2px solid var(--ac);outline-offset:6px}
+input[type=range]{width:100%;accent-color:var(--ac);margin:12px 0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button,.btn{font:inherit;color:var(--tx);background:transparent;border:1px solid var(--ln);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chips button:hover,.chips button:focus-visible{border-color:var(--ac);outline:none}
+.tier{border-left:3px solid var(--ac);padding-left:14px}
+.tier h2{margin:0;font-size:26px;letter-spacing:-.02em}
+.tier p{margin:2px 0 0;color:var(--mu)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;gap:8px}
+.tot b{font-size:24px}
+#left{font-size:13px;color:var(--mu)}
+.bar{display:grid;grid-template-columns:48px 1fr;align-items:center;gap:10px;font-size:13px;color:var(--mu);margin:5px 0}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--ln);overflow:hidden}
+.bar i b{display:block;height:100%;background:var(--ac);transition:width .5s}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td{padding:8px 0;border-top:1px solid var(--ln);vertical-align:top}
+td:first-child{color:var(--mu);width:74px}
+td:last-child{text-align:right;white-space:nowrap}
+.act{display:flex;gap:8px;align-items:center}
+.btn.main{background:var(--ac);color:#06080f;border-color:transparent;font-weight:700;padding:10px 18px}
+#msg{font-size:13px;color:var(--mu)}
+.note{font-size:12px;color:var(--mu)}
+@media(max-width:860px){body{height:auto}.app{display:block;height:auto}#stage{height:56vh}aside{border-left:0;border-top:1px solid var(--ln)}}
+@media(prefers-reduced-motion:reduce){.bar i b{transition:none}}
+</style></head>
+<body>
+<div class="app">
+<div id="stage"><canvas id="c" aria-label="Modelo 3D de tu torre"></canvas>
+<div class="hero"><h1>ForgePC</h1><p>Escribe tu presupuesto y mira crecer la torre.</p></div>
+<div class="hint">Arrastra para girar · rueda o pellizco para acercar</div></div>
+<aside>
+<div><label for="bud">Presupuesto en pesos colombianos</label>
+<div class="money"><span>$</span><input id="bud" inputmode="numeric" autocomplete="off"></div>
+<input type="range" id="rng" min="0" max="1000" aria-label="Presupuesto">
+<div class="chips" id="chips"></div></div>
+<div class="tier"><h2 id="tn"></h2><p id="ts"></p>
+<div class="tot"><b id="tt"></b><span id="left"></span></div></div>
+<div id="perf"></div>
+<table id="parts"></table>
+<div class="act"><button class="btn main" id="save">Guardar build</button><span id="msg"></span></div>
+<p class="note">Precios referenciales en COP, cámbialos por los de tu tienda. Las builds se guardan en este navegador hasta conectar la base de datos.</p>
+</aside></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),fmt=n=>'$'+Math.round(n).toLocaleString('es-CO');
+const T=[
+{n:'Esencial',s:'Ofimática, estudio y juegos ligeros',c:0x38bdf8,f:[45,15,3],p:[['CPU','Ryzen 5 5500',420e3],['GPU','Radeon RX 6500 XT 4 GB',480e3],['Board','A520M',300e3],['RAM','16 GB DDR4 3200',150e3],['SSD','500 GB NVMe',170e3],['Fuente','500 W 80+ Bronze',130e3],['Case','Mid tower con malla',130e3],['Cooler','Disipador stock',0]]},
+{n:'Entrada gamer',s:'1080p fluido en la mayoría de juegos',c:0x34d399,f:[70,35,8],p:[['CPU','Ryzen 5 5600',450e3],['GPU','Radeon RX 6600 8 GB',750e3],['Board','B550M',300e3],['RAM','16 GB DDR4 3200',150e3],['SSD','500 GB NVMe',170e3],['Fuente','550 W 80+ Bronze',150e3],['Case','Vidrio templado + 2 fans',160e3],['Cooler','Torre simple',60e3]]},
+{n:'Gamer',s:'1080p alto y 1440p con DLSS',c:0xa78bfa,f:[85,55,20],p:[['CPU','Ryzen 5 7500F',700e3],['GPU','GeForce RTX 5060 8 GB',1100e3],['Board','B650M',420e3],['RAM','16 GB DDR5 5600',330e3],['SSD','1 TB NVMe',260e3],['Fuente','650 W 80+ Bronze',200e3],['Case','Vidrio templado ARGB',190e3],['Cooler','Torre doble tubo',80e3]]},
+{n:'Pro',s:'1440p ultra y trabajo creativo',c:0xf472b6,f:[95,80,45],p:[['CPU','Ryzen 7 9700X',1300e3],['GPU','GeForce RTX 5070 12 GB',2300e3],['Board','B650 ATX',650e3],['RAM','32 GB DDR5 6000 RGB',700e3],['SSD','1 TB NVMe Gen4',320e3],['Fuente','750 W 80+ Gold',330e3],['Case','Acuario panorámico',380e3],['Cooler','Líquida 240 mm',380e3]]},
+{n:'Élite',s:'4K fluido, streaming y edición',c:0xfb923c,f:[100,95,75],p:[['CPU','Ryzen 7 9800X3D',2100e3],['GPU','GeForce RTX 5080 16 GB',5200e3],['Board','X870 ATX',1200e3],['RAM','32 GB DDR5 6000 CL30',800e3],['SSD','2 TB NVMe Gen4',650e3],['Fuente','850 W 80+ Gold',550e3],['Case','Acuario premium',600e3],['Cooler','Líquida 360 mm',650e3]]},
+{n:'Ultra',s:'Sin límites: 4K máximo e IA local',c:0xfacc15,f:[100,100,98],p:[['CPU','Ryzen 9 9950X3D',3600e3],['GPU','GeForce RTX 5090 32 GB',12500e3],['Board','X870E ATX',2200e3],['RAM','64 GB DDR5 6400',1800e3],['SSD','4 TB NVMe Gen5',1600e3],['Fuente','1000 W 80+ Platinum',900e3],['Case','Acuario premium XL',1100e3],['Cooler','Líquida 360 mm LCD',1000e3]]}
+];
+T.forEach(t=>t.t=t.p.reduce((a,p)=>a+p[2],0));
+const MIN=1.5e6,MAX=26e6;
+/* ---------- 3D ---------- */
+const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+const ren=new THREE.WebGLRenderer({canvas:$('#c'),antialias:true,alpha:true});
+ren.toneMapping=THREE.ACESFilmicToneMapping;ren.toneMappingExposure=1.2;ren.outputEncoding=THREE.sRGBEncoding;ren.shadowMap.enabled=true;ren.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(36,1,.1,100);
+scene.add(new THREE.HemisphereLight(0xb4c2ff,0x05060a,.45));
+{const pm=new THREE.PMREMGenerator(ren),es=new THREE.Scene();es.add(new THREE.Mesh(new THREE.SphereGeometry(30,16,16),new THREE.MeshBasicMaterial({color:0x080a12,side:THREE.BackSide})));
+[[0xffffff,6,7,6,10,1.4,5],[0x7aa2ff,-10,3,0,1.2,8,4],[0xff7ad9,5,3,-10,8,1.2,4],[0xffffff,0,14,0,12,12,2.5],[0xffffff,-6,2,9,6,.8,3]].forEach(a=>{const m=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});m.color.set(a[0]).multiplyScalar(a[6]);const o=new THREE.Mesh(new THREE.PlaneGeometry(a[4],a[5]),m);o.position.set(a[1],a[2],a[3]);o.lookAt(0,0,0);es.add(o)});
+scene.environment=pm.fromScene(es,.02).texture}
+const dl=new THREE.DirectionalLight(0xffffff,1.1);dl.position.set(3,7,5);dl.castShadow=true;dl.shadow.mapSize.set(2048,2048);dl.shadow.bias=-.0004;Object.assign(dl.shadow.camera,{left:-4,right:4,top:5,bottom:-3,near:1,far:20});scene.add(dl);
+const pl=new THREE.PointLight(0xffffff,2,6),pl2=new THREE.PointLight(0xffffff,1.2,6);scene.add(pl,pl2);
+const R=new THREE.Group();scene.add(R);
+const ringM=new THREE.MeshBasicMaterial({color:0x38bdf8}),disc=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.7,.12,64),new THREE.MeshStandardMaterial({color:0x10121b,metalness:.9,roughness:.25}));
+disc.position.y=-.06;disc.receiveShadow=true;R.add(disc);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(2.62,.018,8,120),ringM);ring.rotation.x=Math.PI/2;R.add(ring);
+const pg=new THREE.BufferGeometry(),pa=new Float32Array(240*3);
+for(let i=0;i<pa.length;i++)pa[i]=(Math.random()-.5)*(i%3==1?6:9);
+pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
+const pts=new THREE.Points(pg,new THREE.PointsMaterial({size:.03,color:0x38bdf8,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
+pts.position.y=2;scene.add(pts);
+const gc=document.createElement('canvas');gc.width=gc.height=128;{const x=gc.getContext('2d'),g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.35,'rgba(255,255,255,.35)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,128,128)}
+const glowTex=new THREE.CanvasTexture(gc),sprM=c=>new THREE.SpriteMaterial({map:glowTex,color:c,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false});
+const halo=new THREE.Sprite(sprM(0x38bdf8));halo.material.opacity=.4;halo.scale.set(10,10,1);halo.position.set(0,1.6,-1.8);scene.add(halo);
+let G,cur=-1,appear=1,rgbM=[],spin=[];
+const M=(c,m=.7,r=.35)=>new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r});
+const rgbMat=()=>{const m=new THREE.MeshStandardMaterial({color:0x050505,emissive:0xffffff,emissiveIntensity:1.9});rgbM.push(m);return m};
+const box=(w,h,d,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=!m.transparent;o.receiveShadow=true;G.add(o);return o};
+function fan(r,x,y,z,ry,sp){
+  const g=new THREE.Group(),rot=new THREE.Group(),bm=M(0x101216,.3,.6);g.position.set(x,y,z);g.rotation.y=ry||0;
+  const tm=rgbMat(),hl=new THREE.Sprite(sprM(0xffffff));hl.material.opacity=.55;hl.scale.set(r*3.6,r*3.6,1);hl.position.z=.06;tm.userData.s=hl.material;g.add(hl);g.add(new THREE.Mesh(new THREE.TorusGeometry(r,r*.06,8,40),tm));
+  for(let i=0;i<7;i++){const b=new THREE.Group(),m=new THREE.Mesh(new THREE.BoxGeometry(r*.75,r*.34,.012),bm);m.position.x=r*.5;m.rotation.x=.55;b.add(m);b.rotation.z=i*Math.PI*2/7;rot.add(b)}
+  const h=new THREE.Mesh(new THREE.CylinderGeometry(r*.22,r*.22,.04,16),M(0x0a0b0e));h.rotation.x=Math.PI/2;rot.add(h);g.add(rot);
+  const fr=new THREE.Mesh(new THREE.BoxGeometry(r*2.25,r*2.25,.03),bm);fr.position.z=-.02;g.add(fr);
+  G.add(g);spin.push({o:rot,s:sp||.3});
+}
+function tube(pts){G.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),28,.022,8),M(0x0b0c10,.1,.8)))}
+function build(t){
+  if(G){R.remove(G);G.traverse(o=>{if(o.geometry)o.geometry.dispose()})}
+  G=new THREE.Group();R.add(G);rgbM=[];spin=[];cur=t;
+  const A=T[t].c,Y=2+.13*t,X=1.9+.05*t,Z=.95,cy=Y/2-.65,mz=-Z/2+.08;
+  const dark=M(0x14161d,.8,.35),metal=M(0x9aa3b5,.9,.3);
+  G.position.y=Y/2+.12;
+  /* case */
+  box(X,.06,Z,dark,0,-Y/2,0);box(X,.06,Z,dark,0,Y/2,0);box(.05,Y,Z,dark,X/2,0,0);
+  box(X,Y,.05,M(0x0b0c11,.6,.5),0,0,-Z/2+.03);
+  box(.04,Y,Z,t<2?dark:new THREE.MeshPhysicalMaterial({color:0x99aacc,transparent:true,opacity:.14,roughness:.05,depthWrite:false}),-X/2,0,0);
+  box(X-.06,Y-.06,.02,new THREE.MeshPhysicalMaterial({color:0xaabbdd,transparent:true,opacity:.1,roughness:.03,metalness:.1,depthWrite:false}),0,0,Z/2);
+  G.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(X,Y,Z)),new THREE.LineBasicMaterial({color:A})));
+  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(f=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,.1,16),dark);c.position.set(f[0]*(X/2-.15),-Y/2-.07,f[1]*(Z/2-.1));G.add(c)});
+  /* motherboard */
+  box(1,1,.03,M(t>3?0x0c0d12:0x1a1d2b,.5,.5),.3,cy,mz);
+  box(.55,.12,.08,metal,.12,cy+.43,mz+.05);box(.1,.55,.1,metal,.76,cy+.2,mz+.05);box(.22,.2,.05,metal,.45,cy-.28,mz+.04);
+  box(.5,.012,.012,rgbMat(),.12,cy+.36,mz+.1);
+  /* cooler */
+  if(t<3){box(.34,.5,.2,metal,.2,cy+.15,mz+.16);box(.36,.52,.03,dark,.2,cy+.15,mz+.27);fan(.15,.2,cy+.15,mz+.3,0,.35)}
+  else{const p=new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.09,32),dark);p.rotation.x=Math.PI/2;p.position.set(.2,cy+.15,mz+.12);G.add(p);
+    const d=new THREE.Mesh(new THREE.CircleGeometry(.1,32),rgbMat());d.position.set(.2,cy+.15,mz+.17);G.add(d)}
+  /* RAM */
+  const rn=[1,2,2,2,4,4][t];
+  for(let i=0;i<rn;i++){box(.04,.5,.12,M(0x20232d,.7,.3),.5+i*.05,cy+.18,mz+.1);if(t>1)box(.045,.07,.125,rgbMat(),.5+i*.05,cy+.45,mz+.1)}
+  /* GPU */
+  const gl=[.7,.8,.95,1.1,1.25,1.4][t],gh=.34+.02*t,gt=[.18,.2,.24,.3,.36,.46][t],gz=mz+.06+gt/2,gy=cy-.3,gx=.74-gl/2;
+  box(gl,gh,gt,M(0x16181f,.8,.3),gx,gy,gz);box(gl,.02,gt+.01,rgbMat(),gx,gy+gh/2,gz);box(.02,gh+.1,.2,metal,.76,gy,gz);
+  const gn=t==0?1:t<3?2:3,gr=Math.min(gh*.4,gl/(gn*2.3));
+  for(let i=0;i<gn;i++)fan(gr,gx-gl/2+gl*(i+.5)/gn,gy,gz+gt/2+.015,0,.4);
+  /* radiator / front fans (side-mounted, visible through glass) */
+  const fn=[0,2,3,2,3,3][t],rx=-X/2+.5;
+  if(t>=3){const L=fn*.34;box(.36,L,.1,dark,rx,Y/2-.12-L/2,.3);
+    for(let i=0;i<fn;i++)fan(.16,rx,Y/2-.12-.17-i*.34,.37,0,.3);
+    const q=Y/2-.2;tube([V(.12,cy+.22,mz+.12),V(-.05,cy+.45,.1),V(-.2,q,.3),V(rx+.12,q,.3)]);
+    tube([V(.28,cy+.1,mz+.12),V(.05,cy+.3,.15),V(-.12,q-.1,.3),V(rx+.12,q-.1,.3)])}
+  else for(let i=0;i<fn;i++)fan(.16,rx,Y/2-.3-i*.34,.3,0,.3);
+  /* PSU shroud */
+  box(1.55,.42,Z-.1,M(0x0d0e13,.7,.4),.1,-Y/2+.24,0);box(1.4,.018,.01,rgbMat(),.1,-Y/2+.4,Z/2-.04);
+  /* lights & platform colors */
+  ringM.color.setHex(A);halo.material.color.setHex(A);pts.material.color.setHex(A);pl.color.setHex(A);pl.position.set(0,G.position.y,.4);pl2.position.set(-2,G.position.y+1,2);
+  appear=0;
+}
+function colorize(time){
+  const h=time*.12;
+  rgbM.forEach((m,i)=>{if(cur>=2)m.emissive.setHSL((h+i*.045)%1,1,.5);else m.emissive.setHex(T[cur].c);if(m.userData.s)m.userData.s.color.copy(m.emissive)});
+  if(cur>=2)pl2.color.setHSL((h+.3)%1,1,.5);else pl2.color.setHex(T[cur].c);
+}
+let th=-.6,ph=.2,rd=7.4,lastIn=-9,drag=null,tgt=Math.PI/2;
+const st=$('#stage');
+st.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};st.setPointerCapture(e.pointerId)});
+st.addEventListener('pointermove',e=>{if(!drag)return;th-=(e.clientX-drag.x)*.008;ph=Math.max(-.1,Math.min(.9,ph+(e.clientY-drag.y)*.006));drag={x:e.clientX,y:e.clientY};lastIn=performance.now()});
+st.addEventListener('pointerup',()=>drag=null);
+st.addEventListener('wheel',e=>{e.preventDefault();rd=Math.max(4.5,Math.min(11,rd+e.deltaY*.005));lastIn=performance.now()},{passive:false});
+function size(){const w=st.clientWidth,h=st.clientHeight;ren.setPixelRatio(Math.min(devicePixelRatio,2));ren.setSize(w,h,false);cam.aspect=w/h;cam.position.z=0;cam.updateProjectionMatrix()}
+new ResizeObserver(size).observe(st);
+const clock=new THREE.Clock();
+function loop(){
+  requestAnimationFrame(loop);const dt=clock.getDelta(),tm=clock.elapsedTime;
+  if(!drag&&performance.now()-lastIn>2500)th+=dt*.22;
+  appear=Math.min(1,appear+dt*1.6);const e=1-Math.pow(1-appear,3);
+  if(G){G.scale.setScalar(.55+.45*e);R.rotation.y=(1-e)*1.6}
+  spin.forEach(s=>s.o.rotation.z-=s.s);colorize(tm);pts.rotation.y=tm*.03;
+  const asp=cam.aspect,r=rd*(asp<1?1.5:1);
+  cam.position.set(Math.sin(th)*Math.cos(ph)*r,1.5+Math.sin(ph)*r,Math.cos(th)*Math.cos(ph)*r);cam.lookAt(0,1.4,0);
+  ren.render(scene,cam);
+}
+/* ---------- UI ---------- */
+let B=3.5e6;
+const pick=b=>{let k=0;T.forEach((t,i)=>{if(b>=t.t)k=i});return k};
+const toSlide=b=>Math.max(0,Math.min(1000,1000*Math.log(b/MIN)/Math.log(MAX/MIN)));
+function update(){
+  const i=pick(B),t=T[i];
+  document.documentElement.style.setProperty('--ac','#'+t.c.toString(16).padStart(6,'0'));
+  $('#tn').textContent=t.n;$('#ts').textContent=t.s;$('#tt').textContent=fmt(t.t);
+  $('#left').textContent=B>=t.t?'Te sobran '+fmt(B-t.t):'Te faltan '+fmt(t.t-B)+' para la build mínima';
+  $('#perf').innerHTML=['1080p','1440p','4K'].map((l,k)=>`<div class="bar"><span>${l}</span><i><b style="width:${t.f[k]}%"></b></i></div>`).join('');
+  $('#parts').innerHTML=t.p.map(p=>`<tr><td>${p[0]}</td><td>${p[1]}</td><td>${p[2]?fmt(p[2]):'Incluido'}</td></tr>`).join('');
+  if(i!==cur)build(i);
+}
+function setB(b,from){B=Math.max(1e5,Math.round(b));if(from!=='in')$('#bud').value=B.toLocaleString('es-CO');if(from!=='rng')$('#rng').value=toSlide(B);update()}
+$('#bud').addEventListener('input',e=>{const n=+e.target.value.replace(/\D/g,'');if(n)setB(n,'in')});
+$('#bud').addEventListener('blur',()=>setB(B));
+$('#rng').addEventListener('input',e=>setB(Math.round(MIN*Math.pow(MAX/MIN,e.target.value/1000)/50e3)*50e3,'rng'));
+$('#chips').innerHTML=[2e6,3.5e6,6e6,12e6,25e6].map(v=>`<button data-v="${v}">${(v/1e6).toLocaleString('es-CO')} M</button>`).join('');
+$('#chips').addEventListener('click',e=>{const v=e.target.dataset.v;if(v)setB(+v)});
+window.getBuild=()=>{const t=T[pick(B)];return{budget:B,tier:t.n,total:t.t,parts:t.p.map(p=>({type:p[0],name:p[1],price:p[2]})),createdAt:new Date().toISOString()}};
+$('#save').onclick=()=>{let a=[];try{a=JSON.parse(localStorage.getItem('forgepc_builds')||'[]')}catch(e){}
+  a.push(window.getBuild());let ok=true;try{localStorage.setItem('forgepc_builds',JSON.stringify(a))}catch(e){ok=false}
+  $('#msg').textContent=ok?'Build guardada ('+a.length+')':'No se pudo guardar en este navegador'};
+size();setB(B);loop();
+</script></body></html>

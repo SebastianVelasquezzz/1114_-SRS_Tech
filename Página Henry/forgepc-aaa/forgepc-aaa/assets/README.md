@@ -1,0 +1,1 @@
+Coloca aquí iconos, texturas y recursos propios; respeta las licencias externas.\n

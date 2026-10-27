@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a12"><title>FORGEPC — Build your machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/styles.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+</head><body>
+<div class="ambient a"></div><div class="ambient b"></div>
+<header class="topbar"><a class="brand" href="#"><span class="logo">F<span>+</span></span>FORGE<span class="purple">PC</span></a><div class="top-meta"><i class="dot"></i> PC CONFIGURATION SYSTEM <b>/</b> BETA 02</div><button id="export" class="outline">↗ Exportar build</button></header>
+<main>
+<section class="hero"><div class="eyebrow">— DISEÑADO PARA TU SIGUIENTE NIVEL</div><h1>Tu próxima máquina.<br><span>Sin compromisos.</span></h1><p>Define tu presupuesto. Ajusta cada componente. Visualiza el resultado en tiempo real.</p></section>
+<section class="workspace">
+<div class="visual-col">
+<article class="panel viewer"><header class="panel-head"><div><small>01 / LIVE RENDER</small><h2>Vista de ensamblaje</h2></div><span class="render"><i class="dot"></i> RENDER ACTIVO</span></header>
+<div id="viewport"><div class="scene-tag" id="tier">GAMING / ENTRY</div><div class="coordinates">FP / 3D ENGINE<br><span>BOGOTÁ, CO</span></div><div class="scene-controls"><button id="rotate">Ⅱ PAUSAR GIRO</button><button id="camera-reset">↗ REENCUADRAR</button></div><div class="hint">ARRASTRA PARA ROTAR · SCROLL PARA ZOOM</div></div>
+<div class="stats"><div><small>CPU</small><strong id="stat-cpu">—</strong></div><div><small>GPU</small><strong id="stat-gpu">—</strong></div><div><small>MEMORIA</small><strong id="stat-ram">—</strong></div><div><small>FUENTE</small><strong id="stat-psu">—</strong></div></div></article>
+<div class="feature"><span class="feature-icon">◈</span><div><strong>Construcción consciente</strong><small>Compatibilidad y presupuesto en una sola vista.</small></div><span class="feature-note">COP / COLOMBIA</span></div>
+</div>
+<aside class="panel config">
+<header class="panel-head"><div><small>02 / CONFIGURATOR</small><h2>Configura tu build</h2></div><span class="build-id">FP—001</span></header>
+<div class="mode-switch"><button id="auto-mode" class="active">✦ Automático</button><button id="manual-mode">⌘ Manual</button></div>
+<section class="budget-section"><label for="budget">Presupuesto máximo <span>MONEDA COP</span></label><div class="budget-input"><b>$</b><input id="budget" type="number" min="500000" max="25000000" step="50000" value="4500000"><small>COP</small></div><input id="range" type="range" min="500000" max="25000000" step="50000" value="4500000"><div class="range-labels"><span>$500 mil</span><span>$25 millones</span></div><div class="quick"><button data-budget="2500000">$2.5M</button><button data-budget="4500000">$4.5M</button><button data-budget="7000000">$7M</button><button data-budget="12000000">$12M</button></div></section>
+<section id="manual" class="manual hidden"><div class="section-title"><h3>Selección de componentes</h3><small>PERSONALIZAR</small></div><div id="manual-fields"></div></section>
+<section class="summary"><div class="summary-top"><div><small>INVERSIÓN ESTIMADA</small><strong id="total">$0</strong></div><span id="status" class="chip">DENTRO DEL PRESUPUESTO</span></div><div class="meter"><div id="meter-fill"></div></div><div class="remaining"><span id="remaining-label">Disponible para mejorar</span><strong id="remaining">$0</strong></div><p id="message" aria-live="polite"></p></section>
+<section class="parts"><div class="section-title"><h3>Tu hardware</h3><small>08 COMPONENTES</small></div><div id="parts-list"></div></section>
+<footer class="config-footer"><span>● Precios de demostración</span><button id="reset">REINICIAR ↺</button></footer>
+</aside></section>
+<section class="bottom-note"><span>FORGEPC / BUILD SYSTEM</span><p>Los precios y especificaciones son ficticios. Verifica precios, disponibilidad y compatibilidad antes de comprar.</p></section>
+</main><div id="toast" class="toast" role="status"></div><script type="module" src="./js/main.js"></script>
+</body></html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>ForgePC — Configurador 3D</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b14;
+      --panel: #111827;
+      --panel2: #0d1422;
+      --line: #263247;
+      --text: #f1f5f9;
+      --muted: #9ba9bd;
+      --accent: #8b5cf6;
+      --accent2: #22d3ee;
+      --green: #4ade80;
+      --danger: #fb7185;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(124,58,237,.16), transparent 40%),
+        radial-gradient(ellipse at 90% 15%, rgba(34,211,238,.09), transparent 35%), var(--bg);
+    }
+    button, input { font: inherit; }
+    .topbar {
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      padding:20px clamp(18px,4vw,54px); border-bottom:1px solid rgba(148,163,184,.13);
+    }
+    .brand { display:flex; align-items:center; gap:11px; font-weight:850; letter-spacing:.06em; }
+    .brand-mark {
+      display:grid; place-items:center; width:38px; height:38px; border-radius:12px;
+      color:white; background:linear-gradient(135deg,var(--accent),var(--accent2)); font-size:20px;
+    }
+    .top-status { color:var(--muted); font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+    main { max-width:1440px; margin:auto; padding:34px clamp(16px,3vw,42px) 60px; }
+    .intro { margin-bottom:26px; }
+    .eyebrow { color:var(--accent2); font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:10px 0 8px; font-size:clamp(30px,4vw,48px); line-height:1.05; letter-spacing:-.045em; }
+    .intro p { color:var(--muted); margin:0; max-width:680px; line-height:1.65; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(320px,.8fr); gap:20px; align-items:stretch; }
+    .panel { border:1px solid var(--line); background:linear-gradient(145deg,rgba(17,24,39,.96),rgba(10,15,27,.96)); border-radius:22px; overflow:hidden; box-shadow:0 18px 55px rgba(0,0,0,.2); }
+    .viewer-head { display:flex; justify-content:space-between; align-items:center; padding:18px 20px; border-bottom:1px solid rgba(148,163,184,.12); }
+    .viewer-head strong { font-size:14px; }
+    .live { display:flex; align-items:center; gap:7px; color:var(--green); font-size:12px; }
+    .live::before { content:""; width:7px; height:7px; background:var(--green); border-radius:50%; box-shadow:0 0 12px var(--green); }
+    #viewport { position:relative; height:490px; min-height:350px; background:radial-gradient(ellipse at 50% 45%,#18243a 0%,#0b1120 56%,#090d17 100%); }
+    #viewport canvas { display:block; width:100%; height:100%; outline:none; }
+    .view-hint { position:absolute; bottom:14px; left:16px; pointer-events:none; color:#94a3b8; font-size:11px; background:rgba(3,7,18,.55); padding:8px 10px; border:1px solid rgba(148,163,184,.15); border-radius:9px; }
+    .tier-pill { position:absolute; top:16px; left:16px; background:rgba(124,58,237,.18); color:#c4b5fd; border:1px solid rgba(167,139,250,.35); border-radius:99px; padding:7px 10px; font-size:11px; font-weight:800; }
+    .viewer-foot { display:flex; flex-wrap:wrap; gap:10px; padding:14px 18px; border-top:1px solid rgba(148,163,184,.12); }
+    .stat { flex:1; min-width:100px; padding:10px 12px; background:rgba(15,23,42,.7); border:1px solid rgba(148,163,184,.1); border-radius:12px; }
+    .stat small { display:block; color:var(--muted); font-size:11px; margin-bottom:5px; }
+    .stat strong { font-size:15px; }
+    .config { padding:22px; }
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:16px; }
+    .section-title h2 { margin:0; font-size:17px; }
+    .subtle { color:var(--muted); font-size:12px; }
+    .budget-label { display:flex; justify-content:space-between; gap:10px; align-items:center; font-size:13px; margin-bottom:9px; }
+    .budget-value { color:#c4b5fd; font-weight:800; }
+    .budget-input-wrap { display:flex; align-items:center; gap:10px; background:#090f1d; border:1px solid #34415a; border-radius:13px; padding:0 14px; }
+    .currency { color:var(--muted); font-weight:700; }
+    #budget { width:100%; min-width:0; color:white; background:transparent; border:0; outline:0; padding:15px 0; font-size:20px; font-weight:800; }
+    input[type=range] { width:100%; margin:17px 0 5px; accent-color:var(--accent); cursor:pointer; }
+    .range-labels { display:flex; justify-content:space-between; color:var(--muted); font-size:11px; }
+    .quick-budgets { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
+    .quick-budgets button, .secondary-btn {
+      cursor:pointer; color:#dbeafe; background:#172136; border:1px solid #2b3a53; border-radius:9px; padding:8px 10px; font-size:11px; transition:.15s;
+    }
+    .quick-budgets button:hover, .secondary-btn:hover { border-color:var(--accent); background:#201a3a; }
+    .summary { margin-top:22px; padding:17px; border:1px solid rgba(139,92,246,.3); border-radius:15px; background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(34,211,238,.04)); }
+    .summary-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .summary-label { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.1em; }
+    #total { display:block; font-size:clamp(25px,3vw,32px); letter-spacing:-.04em; margin-top:4px; }
+    .fit-badge { white-space:nowrap; font-size:10px; padding:6px 8px; border-radius:7px; color:#bbf7d0; background:rgba(34,197,94,.12); border:1px solid rgba(74,222,128,.25); }
+    .fit-badge.over { color:#fecdd3; background:rgba(244,63,94,.12); border-color:rgba(251,113,133,.3); }
+    .remaining-row { display:flex; justify-content:space-between; gap:12px; margin-top:14px; font-size:12px; color:var(--muted); }
+    .remaining-row strong { color:var(--green); }
+    .remaining-row strong.over { color:var(--danger); }
+    .progress { height:5px; background:#263247; border-radius:99px; overflow:hidden; margin-top:10px; }
+    #progress { width:0; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .25s; }
+    .parts { margin-top:23px; }
+    .parts h3 { font-size:14px; margin:0 0 12px; }
+    #parts-list { display:grid; gap:8px; }
+    .part { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; background:rgba(7,12,23,.58); border:1px solid rgba(148,163,184,.11); border-radius:11px; }
+    .part-left { display:flex; align-items:center; gap:10px; min-width:0; }
+    .part-icon { display:grid; place-items:center; width:33px; height:33px; flex-shrink:0; background:#1b2540; border-radius:9px; font-size:16px; }
+    .part-name { font-size:12px; font-weight:700; }
+    .part-model { color:var(--muted); font-size:10px; margin-top:3px; }
+    .part-price { font-size:12px; font-weight:800; white-space:nowrap; }
+    .notice { color:var(--muted); font-size:11px; line-height:1.55; margin-top:15px; }
+    .actions { display:flex; gap:9px; margin-top:17px; }
+    .primary-btn { flex:1; cursor:pointer; border:0; border-radius:11px; padding:12px 14px; font-weight:800; color:white; background:linear-gradient(100deg,#7c3aed,#2563eb); }
+    .primary-btn:hover { filter:brightness(1.12); }
+    footer { max-width:1440px; margin:auto; padding:0 24px 30px; color:#64748b; font-size:11px; line-height:1.6; }
+    @media(max-width:900px) { .layout { grid-template-columns:1fr; } #viewport { height:430px; } }
+    @media(max-width:520px) { main { padding-top:24px; } #viewport { height:350px; } .config { padding:17px; } .top-status { display:none; } .summary-top { flex-direction:column; } }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">F</span><span>FORGE<span style="color:#a78bfa">PC</span></span></div>
+    <div class="top-status">PC BUILDER / CONFIGURADOR 3D</div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="eyebrow">Tu presupuesto, tu máquina</div>
+      <h1>Construye tu próxima <span style="color:#a78bfa">PC</span>.</h1>
+      <p>Define cuánto quieres gastar y explora una configuración 3D que se ajusta a tu presupuesto. Arrastra para girar la torre y usa la rueda para acercarte.</p>
+    </section>
+
+    <section class="layout">
+      <article class="panel">
+        <div class="viewer-head"><strong>VISTA 3D · TORRE INTERACTIVA</strong><span class="live">Render en vivo</span></div>
+        <div id="viewport">
+          <div class="tier-pill" id="tier-pill">GAMING DE ENTRADA</div>
+          <div class="view-hint">🖱 Arrastra para girar · rueda para zoom</div>
+        </div>
+        <div class="viewer-foot">
+          <div class="stat"><small>Procesador</small><strong id="stat-cpu">4 núcleos</strong></div>
+          <div class="stat"><small>Gráficos</small><strong id="stat-gpu">Nivel básico</strong></div>
+          <div class="stat"><small>Memoria</small><strong id="stat-ram">16 GB</strong></div>
+        </div>
+      </article>
+
+      <aside class="panel config">
+        <div class="section-title"><h2>Tu configuración</h2><span class="subtle">COP · Colombia</span></div>
+        <label class="budget-label" for="budget"><span>¿Cuál es tu presupuesto máximo?</span><span class="budget-value">COP</span></label>
+        <div class="budget-input-wrap"><span class="currency">$</span><input id="budget" type="number" min="800000" max="15000000" step="50000" value="3500000" inputmode="numeric" /></div>
+        <input id="budget-range" type="range" min="800000" max="15000000" step="50000" value="3500000" aria-label="Ajustar presupuesto" />
+        <div class="range-labels"><span>$800.000</span><span>$15.000.000</span></div>
+        <div class="quick-budgets">
+          <button data-budget="1500000">$1,5 M</button><button data-budget="2500000">$2,5 M</button><button data-budget="3500000">$3,5 M</button><button data-budget="5000000">$5 M</button><button data-budget="8000000">$8 M</button>
+        </div>
+
+        <div class="summary">
+          <div class="summary-top">
+            <div><span class="summary-label">Costo estimado de la configuración</span><strong id="total">$0</strong></div>
+            <span class="fit-badge" id="fit-badge">DENTRO DEL PRESUPUESTO</span>
+          </div>
+          <div class="remaining-row"><span id="remaining-label">Dinero restante</span><strong id="remaining">$0</strong></div>
+          <div class="progress"><div id="progress"></div></div>
+        </div>
+
+        <div class="parts">
+          <h3>Componentes seleccionados</h3>
+          <div id="parts-list"></div>
+        </div>
+        <div class="notice">Los precios y nombres son valores de demostración, no cotizaciones de tiendas. Antes de comprar, actualiza el catálogo con precios reales y verifica compatibilidad, disponibilidad y costos de envío.</div>
+        <div class="actions"><button class="primary-btn" id="copy-btn">Copiar configuración</button><button class="secondary-btn" id="reset-btn">Reiniciar</button></div>
+        <div id="feedback" class="notice" aria-live="polite"></div>
+      </aside>
+    </section>
+  </main>
+  <footer>Demo educativa. La escena 3D se genera por código con geometrías de Three.js; no es un modelo CAD ni una representación exacta de productos comerciales. Requiere conexión a internet para cargar Three.js desde CDN.</footer>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // Catálogo ilustrativo. Ajusta estos valores a precios reales antes de publicar.
+    const builds = [
+      { max: 1499999, tier: 'OFICINA / ESTUDIO', color: 0x64748b, cpu: ['AMD Ryzen 5 4600G', 420000], gpu: ['Gráficos integrados', 0], ram: ['16 GB DDR4', 160000], storage: ['SSD NVMe 500 GB', 150000], board: ['Motherboard A520', 260000], psu: ['Fuente 500 W 80+ básica', 180000], case: ['Gabinete compacto', 220000], cooler: ['Disipador de aire', 80000] },
+      { max: 2499999, tier: 'GAMING DE ENTRADA', color: 0x8b5cf6, cpu: ['AMD Ryzen 5 5600GT', 520000], gpu: ['Gráficos integrados Radeon', 0], ram: ['16 GB DDR4', 180000], storage: ['SSD NVMe 1 TB', 240000], board: ['Motherboard B550', 360000], psu: ['Fuente 550 W 80+', 230000], case: ['Gabinete con vidrio y RGB', 280000], cooler: ['Disipador torre', 120000] },
+      { max: 3999999, tier: 'GAMING MEDIA', color: 0x06b6d4, cpu: ['AMD Ryzen 5 5600', 480000], gpu: ['GPU dedicada de entrada', 950000], ram: ['16 GB DDR4', 180000], storage: ['SSD NVMe 1 TB', 240000], board: ['Motherboard B550', 360000], psu: ['Fuente 650 W 80+', 300000], case: ['Gabinete airflow RGB', 320000], cooler: ['Disipador torre RGB', 150000] },
+      { max: 5999999, tier: 'GAMING AVANZADA', color: 0x22c55e, cpu: ['AMD Ryzen 5 7600', 850000], gpu: ['GPU dedicada gama media', 1700000], ram: ['32 GB DDR5', 360000], storage: ['SSD NVMe 1 TB', 280000], board: ['Motherboard B650', 650000], psu: ['Fuente 750 W 80+ Gold', 420000], case: ['Gabinete airflow premium', 420000], cooler: ['Disipador torre premium', 220000] },
+      { max: Infinity, tier: 'GAMING / CREACIÓN PRO', color: 0xf97316, cpu: ['AMD Ryzen 7 de alto rendimiento', 1300000], gpu: ['GPU dedicada gama alta', 3200000], ram: ['32 GB DDR5', 420000], storage: ['SSD NVMe 2 TB', 480000], board: ['Motherboard B650 premium', 780000], psu: ['Fuente 850 W 80+ Gold', 550000], case: ['Gabinete premium panorámico', 550000], cooler: ['Refrigeración líquida AIO', 420000] }
+    ];
+    const icons = { cpu:'▦', gpu:'▧', ram:'▤', storage:'▰', board:'▦', psu:'ϟ', case:'▣', cooler:'❄' };
+    const labels = { cpu:'Procesador', gpu:'Tarjeta gráfica', ram:'Memoria RAM', storage:'Almacenamiento', board:'Placa madre', psu:'Fuente de poder', case:'Gabinete', cooler:'Refrigeración' };
+    const money = n => new Intl.NumberFormat('es-CO', { style:'currency', currency:'COP', maximumFractionDigits:0 }).format(n);
+    const viewport = document.getElementById('viewport');
+    const budgetInput = document.getElementById('budget');
+    const rangeInput = document.getElementById('budget-range');
+    let currentBuild = null;
+
+    // Escena Three.js
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x0b1120, 9, 22);
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(5.4, 4.1, 7.5);
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    viewport.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1.35, 0);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.65;
+    controls.minDistance = 4;
+    controls.maxDistance = 13;
+    controls.maxPolarAngle = Math.PI * .86;
+
+    scene.add(new THREE.HemisphereLight(0xc8dcff, 0x171827, 2.0));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.2);
+    keyLight.position.set(5, 8, 5); scene.add(keyLight);
+    const rimLight = new THREE.PointLight(0x7c3aed, 20, 12);
+    rimLight.position.set(-3, 3, -2); scene.add(rimLight);
+    const frontLight = new THREE.PointLight(0x22d3ee, 15, 10);
+    frontLight.position.set(2, 2, 4); scene.add(frontLight);
+
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(7, 64), new THREE.MeshStandardMaterial({ color:0x0c1424, roughness:.8, metalness:.1 }));
+    floor.rotation.x = -Math.PI/2; floor.position.y = -0.035; floor.receiveShadow = true; scene.add(floor);
+    const grid = new THREE.GridHelper(14, 28, 0x334155, 0x1b2940);
+    grid.position.y = -0.02; scene.add(grid);
+
+    const pc = new THREE.Group(); scene.add(pc);
+    const materials = {};
+    const mat = (name, color, metalness=.3, roughness=.45, transparent=false, opacity=1) => {
+      const m = new THREE.MeshStandardMaterial({ color, metalness, roughness, transparent, opacity, side: transparent ? THREE.DoubleSide : THREE.FrontSide });
+      materials[name] = m; return m;
+    };
+    const dark = mat('dark', 0x101521, .65, .3);
+    const edge = mat('edge', 0x30394c, .75, .28);
+    const glass = mat('glass', 0x86b8d8, .15, .15, true, .13);
+    const boardMat = mat('board', 0x163b35, .35, .65);
+    const metal = mat('metal', 0x8793a6, .75, .28);
+    const black = mat('black', 0x080b12, .2, .55);
+    let dynamic = [];
+
+    function box(parent, name, size, position, material, cast=true) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material);
+      mesh.name = name; mesh.position.set(...position); mesh.castShadow = cast; mesh.receiveShadow = true;
+      parent.add(mesh); return mesh;
+    }
+    function cylinder(parent, name, radius, length, position, material, axis='z', segments=32) {
+      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, length, segments), material);
+      mesh.name=name; mesh.position.set(...position);
+      if (axis==='z') mesh.rotation.x=Math.PI/2;
+      if (axis==='x') mesh.rotation.z=Math.PI/2;
+      mesh.castShadow=true; parent.add(mesh); return mesh;
+    }
+    function clearDynamic() {
+      for (const obj of dynamic) {
+        pc.remove(obj);
+        obj.traverse?.(child => {
+          if (child.geometry) child.geometry.dispose();
+          // Los materiales compartidos no se liberan aquí.
+        });
+      }
+      dynamic = [];
+    }
+    function addDynamic(obj) { pc.add(obj); dynamic.push(obj); return obj; }
+
+    // Gabinete base: caja abierta visualmente con vidrio lateral.
+    box(pc, 'chassis', [2.25,3.35,1.65], [0,1.72,0], dark);
+    box(pc, 'front-panel', [2.28,3.3,.08], [0,1.72,.86], edge);
+    box(pc, 'front-glass', [2.12,3.12,.025], [0,1.72,.91], glass, false);
+    // Laterales y borde superior/inferior
+    box(pc, 'left-rail', [.08,3.35,1.72], [-1.16,1.72,0], edge);
+    box(pc, 'right-rail', [.08,3.35,1.72], [1.16,1.72,0], edge);
+    box(pc, 'top-rail', [2.3,.09,1.72], [0,3.42,0], edge);
+    box(pc, 'bottom-rail', [2.3,.1,1.72], [0,.04,0], edge);
+    box(pc, 'glass-side', [2.12,3.08,.025], [0,1.72,-.84], glass, false);
+    // Base feet
+    for (const x of [-.78,.78]) for (const z of [-.52,.52]) box(pc,'foot',[.35,.12,.3],[x,-.07,z],black);
+    // Placa madre y ranuras fijas
+    box(pc, 'motherboard', [1.35,2.15,.10], [-.28,1.78,-.57], boardMat);
+    box(pc, 'io-shield', [.25,.65,.13], [-.83,2.6,-.49], metal);
+    // Barra de luz en el frente
+    const frontStripMat = new THREE.MeshStandardMaterial({ color:0x8b5cf6, emissive:0x5b21b6, emissiveIntensity:2.0, metalness:.2, roughness:.3 });
+    box(pc, 'front-rgb-strip', [.035,2.6,.035], [.96,1.72,.97], frontStripMat, false);
+
+    // Ventiladores frontales (cara frontal z positivo)
+    function makeFan(x,y,z,r,color) {
+      const group = new THREE.Group(); group.position.set(x,y,z);
+      const glow = new THREE.MeshStandardMaterial({ color, emissive:color, emissiveIntensity:1.1, metalness:.2, roughness:.25 });
+      cylinder(group,'fan-ring',r,.075,[0,0,0],glow,'z',48);
+      cylinder(group,'fan-core',r*.23,.09,[0,0,.045],dark,'z',24);
+      for(let i=0;i<7;i++){
+        const blade=box(group,'fan-blade',[r*.12,r*.62,.025],[0,r*.39,.055],metal,false);
+        blade.rotation.z=i*Math.PI*2/7;
+      }
+      addDynamic(group); return group;
+    }
+
+    function rebuildHardware(build) {
+      clearDynamic();
+      const accent = new THREE.Color(build.color);
+      const accentMat = new THREE.MeshStandardMaterial({ color:accent, emissive:accent, emissiveIntensity:1.35, metalness:.25, roughness:.3 });
+      const accentSoft = new THREE.MeshStandardMaterial({ color:accent, metalness:.5, roughness:.3 });
+      // GPU: tamaño crece con el nivel y se coloca horizontal en la zona central.
+      const gpuPrice = build.gpu[1];
+      const gpuLength = gpuPrice === 0 ? .45 : gpuPrice < 1200000 ? 1.05 : gpuPrice < 2500000 ? 1.38 : 1.58;
+      const gpu = new THREE.Group(); gpu.position.set(.15,1.48,-.25);
+      box(gpu,'gpu-body',[gpuLength,.32,.72],[0,0,0],black);
+      box(gpu,'gpu-backplate',[gpuLength*.94,.055,.66],[0,.19,0],accentSoft);
+      box(gpu,'gpu-light',[gpuLength*.75,.025,.025],[0,.225,.37],accentMat,false);
+      const fans = gpuPrice===0 ? 0 : gpuPrice < 1200000 ? 1 : 2;
+      for(let i=0;i<fans;i++){
+        const x=(i-(fans-1)/2)*.48;
+        cylinder(gpu,'gpu-fan',.13,.045,[x,0,.39],accentMat,'z',32);
+        cylinder(gpu,'gpu-fan-hub',.045,.05,[x,0,.42],metal,'z',20);
+      }
+      addDynamic(gpu);
+      // CPU cooler
+      const cpuGroup = new THREE.Group(); cpuGroup.position.set(-.48,2.35,-.48);
+      box(cpuGroup,'cpu-block',[.48,.34,.46],[0,0,0],metal);
+      const liquid = build.cooler[1] >= 400000;
+      if(liquid){
+        cylinder(cpuGroup,'aio-pump',.19,.18,[0,.2,0],accentMat,'y',32);
+        for(let i=0;i<2;i++){
+          const tube = new THREE.Mesh(new THREE.TorusGeometry(.12,.025,8,24,Math.PI),accentMat);
+          tube.position.set(i===0?-.22:.22,.28,-.04); tube.rotation.z=i===0?Math.PI/2:-Math.PI/2; cpuGroup.add(tube);
+        }
+      } else {
+        box(cpuGroup,'air-cooler-tower',[.38,.62,.38],[0,.34,0],accentSoft);
+        for(let i=0;i<5;i++) box(cpuGroup,'cooler-fin',[.42,.025,.42],[0,.12+i*.1,0],metal,false);
+        cylinder(cpuGroup,'cooler-fan',.15,.04,[0,.34,.22],accentMat,'z',32);
+      }
+      addDynamic(cpuGroup);
+      // RAM sticks: 2 or 4 depending on budget.
+      const ramCount = build.ram[1] >= 400000 ? 4 : 2;
+      for(let i=0;i<ramCount;i++){
+        const x=-.06+i*.16;
+        const stick=box(pc,'ram-stick',[.075,.58,.09],[x,2.27,-.48],accentSoft);
+        addDynamic(stick);
+        box(pc,'ram-led',[.055,.025,.035],[x,2.57,-.43],accentMat,false);
+      }
+      // Storage module
+      const ssd = box(pc,'ssd',[.55,.12,.18],[-.56,1.35,-.42],accentSoft);
+      addDynamic(ssd);
+      box(pc,'ssd-label',[.22,.015,.12],[-.56,1.42,-.42],metal,false);
+      // PSU in the bottom compartment
+      const psu=box(pc,'power-supply',[.95,.43,.78],[.25,.43,-.25],dark);
+      addDynamic(psu);
+      box(pc,'psu-label',[.5,.02,.025],[.25,.66,.15],accentMat,false);
+      // Fan arrangement changes slightly by budget
+      const fanColor = build.color;
+      makeFan(-.53,2.75,.97,.31,fanColor);
+      makeFan(.53,2.75,.97,.31,fanColor);
+      makeFan(0,1.9,.97,.31,fanColor);
+      if(build.gpu[1]>=1500000) makeFan(.65,3.05,-.45,.2,fanColor);
+      // More powerful configs get more visible lighting.
+      frontStripMat.color.setHex(build.color);
+      frontStripMat.emissive.setHex(build.color);
+      frontStripMat.emissiveIntensity = build.gpu[1]>=1500000 ? 2.7 : 1.6;
+    }
+
+    function fitRenderer() {
+      const w = viewport.clientWidth, h = viewport.clientHeight;
+      renderer.setSize(w,h,false);
+      camera.aspect = w/h; camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', fitRenderer);
+    fitRenderer();
+
+    function getConfig(budget) {
+      const chosen = builds.find(b => b.max >= budget) || builds[builds.length-1];
+      // Crea una configuración escalable y nunca permite superar el presupuesto.
+      // Se usa el catálogo como base, reduciendo piezas costosas si hace falta.
+      let parts = Object.fromEntries(['cpu','gpu','ram','storage','board','psu','case','cooler'].map(k => [k, [...chosen[k]]]));
+      const sum = () => Object.values(parts).reduce((s,p)=>s+p[1],0);
+      // Para presupuestos bajos, partir de la opción más económica y mejorar dentro del límite.
+      if (budget < sum()) {
+        const affordable = [...builds].reverse().find(b => ['cpu','gpu','ram','storage','board','psu','case','cooler'].reduce((s,k)=>s+b[k][1],0) <= budget);
+        if (affordable) parts = Object.fromEntries(['cpu','gpu','ram','storage','board','psu','case','cooler'].map(k=>[k,[...affordable[k]]]));
+      }
+      // No se excede el presupuesto. Si no cabe, mostrar el build mínimo y el aviso.
+      if (sum() > budget) {
+        const cheapest = builds[0];
+        parts = Object.fromEntries(['cpu','gpu','ram','storage','board','psu','case','cooler'].map(k=>[k,[...cheapest[k]]]));
+      }
+      return { ...chosen, parts, total: sum() };
+    }
+
+    function chooseBestBuild(budget) {
+      // Escoge la mejor configuración de catálogo que cabe. Si ninguna cabe,
+      // muestra la más económica y comunica que el presupuesto es insuficiente.
+      const keys = ['cpu','gpu','ram','storage','board','psu','case','cooler'];
+      const eligible = builds.map(b => ({ build:b, total:keys.reduce((s,k)=>s+b[k][1],0) }))
+        .filter(item => item.total <= budget);
+      const item = eligible[eligible.length-1];
+      if (item) return { ...item.build, parts:Object.fromEntries(keys.map(k=>[k,[...item.build[k]]])), total:item.total, insufficient:false };
+      const b=builds[0];
+      return { ...b, parts:Object.fromEntries(keys.map(k=>[k,[...b[k]]])), total:keys.reduce((s,k)=>s+b[k][1],0), insufficient:true };
+    }
+
+    function render(budget) {
+      const build = chooseBestBuild(budget);
+      currentBuild = build;
+      rebuildHardware(build);
+      document.getElementById('tier-pill').textContent = build.tier;
+      document.getElementById('total').textContent = money(build.total);
+      const diff = budget - build.total;
+      const badge = document.getElementById('fit-badge');
+      badge.textContent = build.insufficient ? 'PRESUPUESTO INSUFICIENTE' : 'DENTRO DEL PRESUPUESTO';
+      badge.classList.toggle('over', build.insufficient);
+      document.getElementById('remaining-label').textContent = build.insufficient ? 'Falta para esta configuración' : 'Dinero restante';
+      const remaining = document.getElementById('remaining');
+      remaining.textContent = money(Math.abs(diff));
+      remaining.classList.toggle('over', build.insufficient);
+      document.getElementById('progress').style.width = `${Math.min(100, build.total / Math.max(1,budget) * 100)}%`;
+      document.getElementById('stat-cpu').textContent = build.parts.cpu[0].split(' ').slice(0,3).join(' ');
+      document.getElementById('stat-gpu').textContent = build.parts.gpu[1]===0 ? 'Integrados' : build.parts.gpu[1]>=2500000 ? 'Gama alta' : build.parts.gpu[1]>=1500000 ? 'Gama media' : 'Entrada';
+      document.getElementById('stat-ram').textContent = build.parts.ram[0].split(' ')[0]+' '+build.parts.ram[0].split(' ')[1];
+      const list = document.getElementById('parts-list');
+      list.innerHTML = '';
+      for (const key of ['cpu','gpu','ram','storage','board','psu','case','cooler']) {
+        const [name,price] = build.parts[key];
+        const row=document.createElement('div'); row.className='part';
+        const left=document.createElement('div'); left.className='part-left';
+        const icon=document.createElement('div'); icon.className='part-icon'; icon.textContent=icons[key];
+        const info=document.createElement('div');
+        const title=document.createElement('div'); title.className='part-name'; title.textContent=labels[key];
+        const model=document.createElement('div'); model.className='part-model'; model.textContent=name;
+        info.append(title,model); left.append(icon,info);
+        const cost=document.createElement('div'); cost.className='part-price'; cost.textContent=price===0?'Incluido':money(price);
+        row.append(left,cost); list.appendChild(row);
+      }
+      document.getElementById('feedback').textContent = build.insufficient
+        ? 'El presupuesto no alcanza para esta configuración de demostración. Aumenta el presupuesto o ajusta los precios del catálogo.'
+        : 'Configuración seleccionada automáticamente según el presupuesto máximo.';
+    }
+
+    function syncBudget(raw) {
+      const value = Math.max(0, Math.min(15000000, Number(raw)||0));
+      budgetInput.value = value || '';
+      rangeInput.value = Math.max(800000, Math.min(15000000, value || 800000));
+      if (value > 0) render(value);
+    }
+    budgetInput.addEventListener('input', () => syncBudget(budgetInput.value));
+    rangeInput.addEventListener('input', () => syncBudget(rangeInput.value));
+    document.querySelectorAll('[data-budget]').forEach(btn => btn.addEventListener('click',()=>syncBudget(btn.dataset.budget)));
+    document.getElementById('reset-btn').addEventListener('click',()=>syncBudget(3500000));
+    document.getElementById('copy-btn').addEventListener('click', async () => {
+      if (!currentBuild) return;
+      const lines = [`Configuración ForgePC — ${currentBuild.tier}`, `Total: ${money(currentBuild.total)}`, '', ...Object.entries(currentBuild.parts).map(([key,p])=>`${labels[key]}: ${p[0]} — ${p[1] ? money(p[1]) : 'Incluido'}`)];
+      try {
+        await navigator.clipboard.writeText(lines.join('\n'));
+        document.getElementById('feedback').textContent='Configuración copiada al portapapeles.';
+      } catch {
+        document.getElementById('feedback').textContent=lines.join(' | ');
+      }
+    });
+
+    render(Number(budgetInput.value));
+    function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera); }
+    animate();
+  </script>
+</body>
+</html>
