@@ -1,1 +1,0 @@
-Carpeta preparada para modelos GLB optimizados. Verifica licencia, escala, pivotes, materiales y puntos de montaje antes de usarlos.\n
