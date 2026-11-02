@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Contacto | SSR TECH
+  </title>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Inicio
+    </a>
+    <a href="/componentes">
+     Componentes
+    </a>
+    <a href="/configurar">
+     Arma tu PC
+    </a>
+    <a href="/productos">
+     Productos
+    </a>
+    <a aria-current="page" href="/formulario">
+     Contacto
+    </a>
+   </nav>
+  </header>
+  <main class="contenedor-pagina">
+   <section class="pagina-titulo">
+    <span class="categoria">
+     HABLEMOS
+    </span>
+    <h1>
+     ¿En qué te podemos ayudar?
+    </h1>
+    <p>
+     Cuéntanos qué necesitas y el equipo de SSR TECH tendrá tu mensaje registrado.
+    </p>
+   </section>
+   <form class="formulario-contacto" id="contacto-form">
+    <section class="seccion-contacto">
+     <div class="campos-contacto">
+      <label>
+       Nombre completo
+       <input autocomplete="name" maxlength="100" minlength="2" name="nombre" placeholder="Tu nombre" required=""/>
+      </label>
+      <label>
+       Correo electrónico
+       <input autocomplete="email" maxlength="160" name="email" placeholder="tu@correo.com" required="" type="email"/>
+      </label>
+      <label class="campo-completo">
+       Asunto
+       <input maxlength="120" minlength="3" name="asunto" placeholder="¿Sobre qué quieres consultar?" required=""/>
+      </label>
+      <label class="campo-completo">
+       Mensaje
+       <textarea maxlength="2000" minlength="10" name="mensaje" placeholder="Escribe tu consulta..." required="" rows="6"></textarea>
+      </label>
+     </div>
+     <button class="boton boton-armar" type="submit">
+      Enviar mensaje
+     </button>
+     <p aria-live="polite" class="mensaje-formulario" id="mensaje-contacto" role="status">
+     </p>
+    </section>
+   </form>
+  </main>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Resolvemos tus dudas sobre componentes y configuraciones.
+   <a class="enlace-admin" href="/admin/login">
+    Administración
+   </a>
+  </footer>
+  <script>
+   const formulario=document.querySelector('#contacto-form');
+formulario.addEventListener('submit',async(event)=>{event.preventDefault();const aviso=document.querySelector('#mensaje-contacto');const boton=formulario.querySelector('button[type="submit"]');aviso.textContent='Enviando mensaje…';boton.disabled=true;try{const datos=Object.fromEntries(new FormData(formulario));const respuesta=await fetch('/api/contacto',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)});const resultado=await respuesta.json();if(!respuesta.ok)throw new Error(resultado.error||'No se pudo enviar el mensaje.');aviso.textContent=resultado.mensaje;formulario.reset()}catch(error){aviso.textContent=error.message}finally{boton.disabled=false}});
+  </script>
+ </body>
+</html>

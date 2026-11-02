@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Presupuesto para tu PC | SSR TECH
+  </title>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Inicio
+    </a>
+    <a href="/componentes">
+     Componentes
+    </a>
+    <a href="/configurar">
+     Arma tu PC
+    </a>
+    <a href="/productos">
+     Productos
+    </a>
+   </nav>
+  </header>
+  <main class="contenedor-pagina">
+   <section class="pagina-titulo">
+    <span class="categoria">
+     PRESUPUESTO
+    </span>
+    <h1>
+     Calcula cuánto quieres invertir
+    </h1>
+    <p>
+     Indica tu presupuesto y te llevaremos al configurador para elegir piezas disponibles en el catálogo.
+    </p>
+   </section>
+   <section class="seccion" style="max-width:640px;margin:25px auto">
+    <form class="campo-pc" id="presupuesto-form">
+     <label for="presupuesto">
+      Presupuesto disponible (COP)
+     </label>
+     <input id="presupuesto" max="100000000" min="1" placeholder="Ej. 2500000" required="" type="number"/>
+     <button class="boton boton-armar" type="submit">
+      Continuar al configurador
+     </button>
+     <p id="mensaje-presupuesto" role="status">
+     </p>
+    </form>
+   </section>
+  </main>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Planifica tu próxima configuración.
+   <a class="enlace-admin" href="/admin/login">
+    Administración
+   </a>
+  </footer>
+  <script>
+   document.querySelector('#presupuesto-form').addEventListener('submit',e=>{e.preventDefault();const valor=Number(document.querySelector('#presupuesto').value);if(!Number.isSafeInteger(valor)||valor<1){document.querySelector('#mensaje-presupuesto').textContent='Ingresa un presupuesto válido.';return}location.href=`/configurar?presupuesto=${valor}`});
+  </script>
+ </body>
+</html>

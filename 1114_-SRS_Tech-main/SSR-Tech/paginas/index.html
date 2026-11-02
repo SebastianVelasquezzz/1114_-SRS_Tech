@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+  <title>
+   SSR TECH
+  </title>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Inicio
+    </a>
+    <a href="/componentes">
+     Componentes
+    </a>
+    <a href="/configurar">
+     Arma tu PC
+    </a>
+    <a href="#tienda">
+     Tienda
+    </a>
+    <a href="/productos">
+     Productos
+    </a>
+    <a href="/formulario">
+     Contacto
+    </a>
+    <button class="carrito-boton" id="abrir-carrito" type="button">
+     Carrito
+     <span id="cantidad-carrito">
+      0
+     </span>
+    </button>
+   </nav>
+  </header>
+  <section class="slider">
+   <div class="slide activo">
+    <img alt="Equipo de computador gaming con iluminación cian" src="https://www.elettromania.com/assets/uploads/gallery_20260503_082310_502955bf.jpeg"/>
+    <div class="contenido-slide">
+     <span>
+      SSR TECH
+     </span>
+     <h2>
+      Arma tu PC
+     </h2>
+     <p>
+      Encuentra los componentes que necesitas
+                para crear el computador que quieres.
+     </p>
+     <a class="boton" href="/configurar">
+      Diseñar mi PC
+     </a>
+    </div>
+   </div>
+   <div class="slide">
+    <img alt="Equipo de computador gaming con iluminación cian" src="https://www.elettromania.com/assets/uploads/gallery_20260503_082310_502955bf.jpeg"/>
+    <div class="contenido-slide">
+     <span>
+      GAMING
+     </span>
+     <h2>
+      Potencia para jugar
+     </h2>
+     <p>
+      Mejora el rendimiento de tu PC
+                y disfruta tus juegos favoritos.
+     </p>
+     <a class="boton" href="/componentes">
+      Ver componentes
+     </a>
+    </div>
+   </div>
+   <div class="slide">
+    <img alt="Equipo de computador gaming con iluminación cian" src="https://arkaiacorp.com/static/img/articulos/componentes-pc-gaming.webp"/>
+    <div class="contenido-slide">
+     <span>
+      ACTUALIZA
+     </span>
+     <h2>
+      Mejora tu PC
+     </h2>
+     <p>
+      Encuentra memoria RAM, almacenamiento,
+                fuentes y mucho más.
+     </p>
+     <a class="boton" href="/componentes">
+      Conocer piezas
+     </a>
+    </div>
+   </div>
+   <button class="anterior" onclick="cambiarSlide(-1)">
+    ❮
+   </button>
+   <button class="siguiente" onclick="cambiarSlide(1)">
+    ❯
+   </button>
+   <div class="indicadores">
+    <span class="indicador activo-indicador" onclick="irSlide(0)">
+    </span>
+    <span class="indicador" onclick="irSlide(1)">
+    </span>
+    <span class="indicador" onclick="irSlide(2)">
+    </span>
+   </div>
+  </section>
+  <section class="bienvenida">
+   <p class="pequeno">
+    TODO PARA TU PC
+   </p>
+   <h2>
+    Encuentra los componentes
+        que necesitas
+   </h2>
+   <p>
+    Explora nuestra variedad de componentes,
+        productos y opciones para mejorar tu PC.
+   </p>
+   <a class="boton-secundario" href="/componentes">
+    Guía de componentes
+   </a>
+  </section>
+  <section class="seccion-componentes">
+   <div class="titulo-seccion">
+    <span>
+     LO QUE TENEMOS
+    </span>
+    <h2>
+     Componentes para tu PC
+    </h2>
+    <p>
+     Encuentra los componentes que necesitas
+            para armar, mejorar o actualizar tu computador.
+    </p>
+   </div>
+   <div class="contenedor-componentes">
+    <article class="tarjeta-componente">
+     <img alt="Procesador" src="https://capital.lv/media/magefan_blog/Datoru_komponentes.png"/>
+     <div class="info-componente">
+      <span class="categoria">
+       PROCESADORES
+      </span>
+      <h3>
+       Procesadores
+      </h3>
+      <p>
+       Procesadores para diferentes tipos
+                    de computadores y necesidades.
+      </p>
+      <a class="boton-tarjeta" href="/componentes#procesadores">
+       Ver procesadores
+      </a>
+     </div>
+    </article>
+    <article class="tarjeta-componente">
+     <img alt="Tarjeta gráfica" src="https://arkaiacorp.com/static/img/articulos/componentes-pc-gaming.webp"/>
+     <div class="info-componente">
+      <span class="categoria">
+       GAMING
+      </span>
+      <h3>
+       Tarjetas gráficas
+      </h3>
+      <p>
+       Tarjetas gráficas para gaming,
+                    diseño y edición.
+      </p>
+      <a class="boton-tarjeta" href="/componentes">
+       Ver tarjetas
+      </a>
+     </div>
+    </article>
+    <article class="tarjeta-componente">
+     <img alt="Memoria RAM" src="https://www.digitaltrends.com/tachyon/2025/11/GPU-RAM-SSD-on-table.jpg?resize=1200%2C630"/>
+     <div class="info-componente">
+      <span class="categoria">
+       MEMORIA
+      </span>
+      <h3>
+       Memoria RAM
+      </h3>
+      <p>
+       Aumenta la velocidad y capacidad
+                    de tu computador.
+      </p>
+      <a class="boton-tarjeta" href="/componentes#memoria">
+       Ver memorias
+      </a>
+     </div>
+    </article>
+    <article class="tarjeta-componente">
+     <img alt="Almacenamiento" src="https://www.digitaltrends.com/tachyon/2025/11/GPU-RAM-SSD-on-table.jpg?resize=1200%2C630"/>
+     <div class="info-componente">
+      <span class="categoria">
+       ALMACENAMIENTO
+      </span>
+      <h3>
+       Almacenamiento
+      </h3>
+      <p>
+       SSD y otros dispositivos para
+                    guardar tus archivos.
+      </p>
+      <a class="boton-tarjeta" href="/componentes#almacenamiento">
+       Ver almacenamiento
+      </a>
+     </div>
+    </article>
+    <article class="tarjeta-componente">
+     <img alt="Fuente de poder" src="https://mr-robot.ru/upload/medialibrary/d95/dvqcpsmj7wau1p2x4nl7n3qi7w1gzvio.jpeg"/>
+     <div class="info-componente">
+      <span class="categoria">
+       ENERGÍA
+      </span>
+      <h3>
+       Fuentes de poder
+      </h3>
+      <p>
+       Fuentes de alimentación para
+                    diferentes configuraciones.
+      </p>
+      <a class="boton-tarjeta" href="/componentes#fuentes">
+       Ver fuentes
+      </a>
+     </div>
+    </article>
+    <article class="tarjeta-componente">
+     <img alt="Gabinete" src="https://www.elettromania.com/assets/uploads/gallery_20260503_082310_502955bf.jpeg"/>
+     <div class="info-componente">
+      <span class="categoria">
+       GABINETES
+      </span>
+      <h3>
+       Gabinetes
+      </h3>
+      <p>
+       Gabinetes para organizar y proteger
+                    todos los componentes de tu PC.
+      </p>
+      <a class="boton-tarjeta" href="/componentes#gabinetes">
+       Ver gabinetes
+      </a>
+     </div>
+    </article>
+   </div>
+  </section>
+  <section class="seccion-productos">
+   <div class="titulo-seccion">
+    <span>
+     CATÁLOGO ACTUALIZADO
+    </span>
+    <h2>
+     Encuentra las piezas para tu equipo
+    </h2>
+    <p>
+     Consulta productos y precios disponibles en el catálogo conectado a nuestra base de datos.
+    </p>
+    <a class="boton-secundario" href="/productos">
+     Explorar todos los productos
+    </a>
+   </div>
+  </section>
+  <section class="tienda" id="tienda">
+   <div class="titulo-seccion">
+    <span>
+     COMPONENTES PARA ARMAR
+    </span>
+    <h2>
+     Elige tus piezas
+    </h2>
+    <p>
+     Añade componentes a tu carrito y envía tu pedido. SSR Tech guardará los datos para que el administrador pueda revisarlos.
+    </p>
+   </div>
+   <div class="tienda-grid" id="productos-tienda">
+   </div>
+  </section>
+  <section class="sobre-nosotros">
+   <div class="titulo-seccion">
+    <span>
+     SSR TECH
+    </span>
+    <h2>
+     Sobre nosotros
+    </h2>
+   </div>
+   <div class="contenido-nosotros">
+    <img alt="Sobre nosotros" src="https://www.elettromania.com/assets/uploads/gallery_20260503_082310_502955bf.jpeg"/>
+    <div>
+     <h3>
+      ¿Quiénes somos?
+     </h3>
+     <p>
+      Somos una tienda dedicada a la venta
+                de componentes y productos para computadores.
+     </p>
+     <p>
+      Nuestro objetivo es ofrecer diferentes
+                opciones para que cada persona pueda
+                encontrar los componentes que necesita.
+     </p>
+     <p>
+      Contamos con productos para gaming,
+                trabajo, estudio, diseño y diferentes
+                tipos de usuarios.
+     </p>
+    </div>
+   </div>
+  </section>
+  <section class="seccion-ventajas">
+   <div class="titulo-seccion">
+    <span>
+     SSR TECH
+    </span>
+    <h2>
+     ¿Por qué elegirnos?
+    </h2>
+   </div>
+   <div class="contenedor-ventajas">
+    <article>
+     <h3>
+      Variedad
+     </h3>
+     <p>
+      Diferentes componentes para
+                todo tipo de PC.
+     </p>
+    </article>
+    <article>
+     <h3>
+      Calidad
+     </h3>
+     <p>
+      Productos pensados para diferentes
+                necesidades y configuraciones.
+     </p>
+    </article>
+    <article>
+     <h3>
+      Atención
+     </h3>
+     <p>
+      Te ayudamos a encontrar los
+                componentes adecuados para tu equipo.
+     </p>
+    </article>
+    <article>
+     <h3>
+      Envíos
+     </h3>
+     <p>
+      Realizamos envíos para que puedas
+                recibir tus productos donde los necesites.
+     </p>
+    </article>
+   </div>
+  </section>
+  <section class="ayuda">
+   <h2>
+    ¿Necesitas ayuda?
+   </h2>
+   <p>
+    Si tienes dudas sobre qué componentes necesitas
+        para armar o actualizar tu PC, puedes contactarnos.
+   </p>
+   <a class="boton-secundario" href="/formulario">
+    Contactarnos
+   </a>
+  </section>
+  <div class="sombra-carrito" id="sombra-carrito">
+  </div>
+  <aside aria-hidden="true" class="panel-carrito" id="panel-carrito">
+   <div class="carrito-titulo">
+    <div>
+     <span class="categoria">
+      TU PEDIDO
+     </span>
+     <h2>
+      Carrito
+      <small id="items-carrito">
+       0 piezas
+      </small>
+     </h2>
+    </div>
+    <button aria-label="Cerrar" class="cerrar-carrito" id="cerrar-carrito">
+     ×
+    </button>
+   </div>
+   <div class="lineas-carrito" id="lineas-carrito">
+   </div>
+   <div class="carrito-pie">
+    <p>
+     Total estimado
+     <strong id="total-carrito">
+      $0
+     </strong>
+    </p>
+    <form class="compra-form" id="compra-form">
+     <label>
+      Nombre
+      <input name="nombre" placeholder="Nombre completo" required=""/>
+     </label>
+     <label>
+      Correo
+      <input name="email" placeholder="correo@ejemplo.com" required="" type="email"/>
+     </label>
+     <label>
+      Teléfono
+      <input name="telefono" placeholder="Número de contacto" required=""/>
+     </label>
+     <label>
+      Dirección de entrega
+      <textarea name="direccion" placeholder="Ciudad y dirección" required=""></textarea>
+     </label>
+     <button class="boton boton-armar" type="submit">
+      Enviar pedido
+     </button>
+     <p class="nota-compra">
+      Pedido de demostración. No se procesan pagos.
+     </p>
+     <p id="mensaje-compra">
+     </p>
+    </form>
+   </div>
+  </aside>
+  <script src="../scripts/tienda.js">
+  </script>
+  <script src="../scripts/slider.js">
+  </script>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Componentes para armar, mejorar y actualizar tu PC.
+   <a class="enlace-admin" href="/admin/login">
+    Administración
+   </a>
+  </footer>
+ </body>
+</html>

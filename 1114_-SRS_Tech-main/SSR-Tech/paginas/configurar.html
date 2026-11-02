@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Arma tu PC | SSR TECH
+  </title>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Inicio
+    </a>
+    <a href="/componentes">
+     Componentes
+    </a>
+    <a aria-current="page" href="/configurar">
+     Arma tu PC
+    </a>
+    <a href="/productos">
+     Productos
+    </a>
+    <a href="/formulario">
+     Contacto
+    </a>
+   </nav>
+  </header>
+  <main class="contenedor">
+   <div class="encabezado">
+    <span class="categoria">
+     CONFIGURADOR
+    </span>
+    <h1>
+     Arma tu PC a tu manera
+    </h1>
+    <p>
+     Escribe cuánto quieres invertir y deja que SSR TECH seleccione automáticamente las piezas disponibles. También puedes ajustar cada componente manualmente.
+    </p>
+   </div>
+   <form class="formulario-pc" id="config-form">
+    <section class="seccion datos-cliente">
+     <h2>
+      Tus datos
+     </h2>
+     <div class="campo-pc">
+      <label for="nombre-config">
+       Nombre
+      </label>
+      <input autocomplete="name" id="nombre-config" maxlength="100" minlength="2" name="nombre" placeholder="Tu nombre" required=""/>
+     </div>
+     <div class="campo-pc">
+      <label for="email-config">
+       Correo
+      </label>
+      <input autocomplete="email" id="email-config" maxlength="160" name="email" placeholder="correo@ejemplo.com" required="" type="email"/>
+     </div>
+     <div class="campo-pc presupuesto-campo">
+      <label for="presupuesto-config">
+       Presupuesto disponible (COP)
+      </label>
+      <input id="presupuesto-config" max="100000000" min="1" name="presupuesto" placeholder="Ej. 1000000" type="number"/>
+      <button class="boton-secundario" id="auto-armar" type="button">
+       Elegir piezas automáticamente
+      </button>
+      <small>
+       Usaremos los productos y precios guardados en el catálogo.
+      </small>
+     </div>
+    </section>
+    <div class="selectores-pc" id="selectores">
+     <p>
+      Cargando productos disponibles…
+     </p>
+    </div>
+    <aside class="config-resumen">
+     <h2>
+      Tu configuración
+     </h2>
+     <p>
+      Piezas seleccionadas
+      <strong id="cuenta">
+       0
+      </strong>
+     </p>
+     <p>
+      Presupuesto
+      <strong id="presupuesto-resumen">
+       Sin definir
+      </strong>
+     </p>
+     <p class="estado-presupuesto" id="estado-presupuesto" role="status">
+      Elige un presupuesto para recibir una sugerencia.
+     </p>
+     <p>
+      Total estimado
+      <strong id="total">
+       $0
+      </strong>
+     </p>
+     <button class="boton boton-armar" type="submit">
+      Enviar al administrador
+     </button>
+     <p aria-live="polite" class="mensaje-guardado" id="respuesta-config" role="status">
+     </p>
+    </aside>
+   </form>
+  </main>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Selecciona las piezas que necesitas.
+   <a class="enlace-admin" href="/admin/login">
+    Administración
+   </a>
+  </footer>
+  <script defer="" src="/scripts/configurar.js">
+  </script>
+ </body>
+</html>

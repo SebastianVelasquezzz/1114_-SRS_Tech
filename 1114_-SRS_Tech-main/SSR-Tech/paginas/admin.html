@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Administración | SSR TECH
+  </title>
+  <link href="/estilos/estilos.css" rel="stylesheet"/>
+  <link href="/estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    Administración SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Tienda
+    </a>
+    <button class="boton boton-limpiar" id="salir-admin" type="button">
+     Cerrar sesión
+    </button>
+   </nav>
+  </header>
+  <main>
+   <section class="pagina-titulo">
+    <span class="categoria">
+     ÁREA PRIVADA
+    </span>
+    <h1>
+     Administración de la tienda
+    </h1>
+    <p>
+     Consulta los pedidos recibidos y actualiza los productos disponibles.
+    </p>
+   </section>
+   <section class="seccion-componentes">
+    <div class="titulo-seccion">
+     <span>
+      VENTAS
+     </span>
+     <h2>
+      Pedidos recibidos
+     </h2>
+    </div>
+    <div class="admin-panel" id="lista-ordenes">
+    </div>
+    <div class="titulo-seccion">
+     <span>
+      CONFIGURADOR
+     </span>
+     <h2>
+      Configuraciones guardadas
+     </h2>
+    </div>
+    <div class="admin-panel" id="lista-admin">
+    </div>
+    <div class="titulo-seccion">
+     <span>
+      ATENCIÓN AL CLIENTE
+     </span>
+     <h2>
+      Mensajes de contacto
+     </h2>
+    </div>
+    <div class="admin-panel" id="lista-contactos">
+    </div>
+   </section>
+   <section class="admin-productos">
+    <div class="titulo-seccion">
+     <span>
+      CATÁLOGO
+     </span>
+     <h2>
+      Gestionar productos
+     </h2>
+     <p>
+      Los cambios se guardan en la base de datos SQLite.
+     </p>
+    </div>
+    <form class="admin-producto-form" id="producto-form">
+     <h3 id="titulo-producto-form">
+      Añadir producto
+     </h3>
+     <input maxlength="100" minlength="2" name="nombre" placeholder="Nombre del producto" required=""/>
+     <select name="tipo" required="">
+      <option value="">
+       Categoría
+      </option>
+      <option>
+       Procesador
+      </option>
+      <option>
+       Tarjeta gráfica
+      </option>
+      <option>
+       Memoria RAM
+      </option>
+      <option>
+       Placa madre
+      </option>
+      <option>
+       Almacenamiento
+      </option>
+      <option>
+       Fuente
+      </option>
+      <option>
+       Gabinete
+      </option>
+      <option>
+       Refrigeración
+      </option>
+      <option>
+       Periférico
+      </option>
+     </select>
+     <input max="100000000" min="0" name="precio" placeholder="Precio en COP" required="" type="number"/>
+     <input maxlength="240" name="detalle" placeholder="Detalle del producto" required=""/>
+     <input maxlength="180" name="imagen" placeholder="Ruta de imagen (opcional)"/>
+     <button class="boton boton-armar" type="submit">
+      Guardar producto
+     </button>
+     <button class="boton-secundario" hidden="" id="cancelar-edicion" type="button">
+      Cancelar edición
+     </button>
+     <p id="mensaje-producto" role="status">
+     </p>
+    </form>
+    <div class="admin-panel" id="lista-productos-admin">
+    </div>
+   </section>
+  </main>
+  <footer class="site-footer">
+   <strong>
+    SSR TECH
+   </strong>
+   · Panel de administración privado.
+  </footer>
+  <script defer="" src="/scripts/admin.js">
+  </script>
+ </body>
+</html>

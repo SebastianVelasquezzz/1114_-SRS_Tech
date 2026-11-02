@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Acceso de administración | SSR TECH
+  </title>
+  <link href="../estilos/estilos.css" rel="stylesheet"/>
+  <link href="../estilos/mejoras.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    SSR TECH
+   </h1>
+   <nav>
+    <a href="/">
+     Volver a la tienda
+    </a>
+   </nav>
+  </header>
+  <main class="contenedor admin-login">
+   <section class="seccion">
+    <span class="categoria">
+     ÁREA PRIVADA
+    </span>
+    <h1>
+     Panel de administración
+    </h1>
+    <p>
+     Inicia sesión para revisar las configuraciones enviadas, pedidos, mensajes y productos del catálogo.
+    </p>
+    <form id="admin-login">
+     <div class="campo-pc">
+      <label for="password-admin">
+       Contraseña de administrador
+      </label>
+      <input autocomplete="current-password" id="password-admin" name="password" required="" type="password"/>
+     </div>
+     <button class="boton boton-armar" type="submit">
+      Ingresar al panel
+     </button>
+     <p class="nota-compra">
+      Acceso local de demostración:
+      <strong>
+       SSRTECH2026
+      </strong>
+     </p>
+     <p class="alerta-error" id="login-error" role="alert">
+     </p>
+    </form>
+   </section>
+  </main>
+  <script defer="" src="../scripts/admin.js">
+  </script>
+ </body>
+</html>
